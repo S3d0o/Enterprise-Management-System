@@ -1,3 +1,7 @@
+using Demo.DataAccess.Data.Contexts;
+using Demo.DataAccess.Data.Repositories;
+using Microsoft.EntityFrameworkCore;
+
 namespace Demo.Presentaion
 {
     public class Program
@@ -6,8 +10,23 @@ namespace Demo.Presentaion
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            #region DI Container
+
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            //Life Times [object] => AddTransient, AddScoped, AddSingleton
+            //AddDbContext => Scoped for DbContext
+            builder.Services.AddScoped<AppDbContext /*when any instace of AppDbContext will be created it will be on the CLR */ >();
+            builder.Services.AddDbContext<AppDbContext>(options =>
+            {
+                //options.UseSqlServer("Connection string ");
+                //options.UseSqlServer(builder.Configuration["ConnectionStrings:DefaultConnectionString"]); // first way
+                //options.UseSqlServer(builder.Configuration.GetSection("ConnectionStrings")["DefaultConnectionString"]); // second way
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString")); // third way, better way if u named the section "ConnectionString"
+
+            });
+            builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+            #endregion
 
             var app = builder.Build();
 
