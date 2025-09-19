@@ -6,10 +6,11 @@ namespace Demo.Presentaion.Controllers
 {
     public class DepartmentController(IDepartmentService _departmentService) : Controller
     {
-        
+        // Base URL/Controller/Action  
         public ActionResult Index()
         {
-            return View();
+            var departments = _departmentService.GetAllDepartments();
+            return View(departments); // model here is departments(Data)
         }
 
         
