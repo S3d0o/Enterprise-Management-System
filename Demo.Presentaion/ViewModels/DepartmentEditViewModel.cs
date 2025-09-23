@@ -1,0 +1,10 @@
+﻿namespace Demo.Presentaion.ViewModels
+{
+    public class DepartmentEditViewModel
+    {
+        public string Code { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
+        public string? Description { get; set; }
+        public DateOnly CreatedAt { get; set; }
+    }
+}
