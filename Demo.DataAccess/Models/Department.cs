@@ -1,4 +1,6 @@
-﻿namespace Demo.DataAccess.Models
+﻿using Demo.DataAccess.Models.Shared;
+
+namespace Demo.DataAccess.Models
 {
     public class Department : BaseEntity
     {

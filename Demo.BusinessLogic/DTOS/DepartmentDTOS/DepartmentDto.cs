@@ -1,4 +1,4 @@
-﻿namespace Demo.BusinessLogic.DTOS
+﻿namespace Demo.BusinessLogic.DTOS.DepartmentDTOS
 {
     public class DepartmentDto // GetAll Validation => Id,Code,Name,Description,DateOfCreation [Date part only]
     {

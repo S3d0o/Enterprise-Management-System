@@ -1,4 +1,4 @@
-﻿using Demo.BusinessLogic.DTOS;
+﻿using Demo.BusinessLogic.DTOS.DepartmentDTOS;
 using Demo.BusinessLogic.Factories;
 using Demo.BusinessLogic.Services.Interfaces;
 using Demo.DataAccess.Data.Repositories.Classes;

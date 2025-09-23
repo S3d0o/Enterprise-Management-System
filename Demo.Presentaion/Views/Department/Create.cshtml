@@ -1,0 +1,40 @@
+﻿@model CreateDepartmentDto
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="row justify-content-center align-content-center mt-3">
+    <h1 class="col-8 my-4">Create Department</h1>
+
+    <form class="col-8" method="post" asp-controller="Department" asp-action="Create">
+        @*ModelOnly=> for global errors only , All => for all global and prop *@
+        <div asp-validation-summary="ModelOnly" >
+            
+        </div>
+        <div class="form-group mb-3">
+            @* <label class="form-label" for="Code"></label> *@
+            @* <input id="Code" name="Code" type="text" /> *@
+            <label class="form-label" asp-for="Code"></label>
+            <input asp-for="Code" class="form-control" />
+            @* asp-for is usefull tag helper *@
+            <span asp-validation-for="Code" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-3">
+            <label class="form-label" asp-for="Name"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-3">
+            <label class="form-label" asp-for="Description"></label>
+            <textarea class="form-control" asp-for="Description"></textarea>
+        </div>
+        <div class="form-group mb-3">
+            <label class="form-label" asp-for="CreatedAt"></label>
+            <input type="date" asp-for="CreatedAt" class="form-control" />
+        </div>
+        <div class="mt-4 m-auto">
+            <input class="btn btn-primary" type="submit" value="Create" />
+            <a class="btn btn-outline-dark" asp-controller="Department" asp-action="Index">Back to list</a>
+        </div>
+    </form>
+</div>
