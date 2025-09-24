@@ -1,6 +1,9 @@
 ﻿using Demo.BusinessLogic.DTOS.EmployeeDTOS;
 using Demo.BusinessLogic.Services.Interfaces;
+using Demo.DataAccess.Models.EmployeeModule;
+using Demo.DataAccess.Models.Shared;
 using Microsoft.AspNetCore.Mvc;
+using System.Numerics;
 
 namespace Demo.Presentaion.Controllers
 {
@@ -54,11 +57,56 @@ namespace Demo.Presentaion.Controllers
         [HttpGet]
         public IActionResult Details(int? id)
         {
-            if(id.HasValue) return BadRequest();
-            var emp = _employeeService.GetEmployeeById(id);
+            if(!id.HasValue) return BadRequest();
+            var emp = _employeeService.GetEmployeeById(id!.Value);
             if(emp is null) return NotFound();
             return View(emp);
         }
 
+        [HttpGet]
+        public IActionResult Edit(int? id)
+        {
+            if(!id.HasValue) return BadRequest();
+            var emp = _employeeService.GetEmployeeById(id!.Value);
+            var employee = _employeeService.GetEmployeeById(id.Value);
+            if(employee is null) return NotFound();
+            var employeeDto = new UpdatedEmployeeDto()
+            {
+                id = emp!.Id,
+                Name = emp.Name,
+                Age = emp.Age,
+                Address = emp.Address,
+                Salary = emp.Salary,
+                IsActive = emp.IsActive,
+                Email = emp.Email,
+                PhoneNumber = emp.PhoneNumber,
+                HiringDate = emp.HiringDate,
+                EmployeeType = Enum.Parse<EmployeeType>(emp.EmployeeType),
+                Gender = Enum.Parse<Gender>(emp.Gender)
+            };
+            return View(employeeDto);
+        }
+
+        [HttpPost]
+        public IActionResult Edit([FromRoute] int? id, UpdatedEmployeeDto employeeDto)
+        {
+            if (!id.HasValue || id.Value != employeeDto.id) return BadRequest();
+            if(!ModelState.IsValid) return View(employeeDto);
+            try
+            {
+                int result = _employeeService.UpdateEmployee(employeeDto);
+                if(result>0)
+                    return RedirectToAction(nameof(Index));
+                ModelState.AddModelError(string.Empty, "The employee could not be updated. Please try again.");
+            }
+            catch (Exception ex)
+            { 
+                if(_env.IsDevelopment())
+                    _logger.LogError(ex, "Error while updating employee");
+                else
+                    ModelState.AddModelError(string.Empty, ex.Message);
+            }
+            return View(employeeDto);
+        }
     }
 }
