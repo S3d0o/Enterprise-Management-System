@@ -51,5 +51,14 @@ namespace Demo.Presentaion.Controllers
             }
         }
 
+        [HttpGet]
+        public IActionResult Details(int? id)
+        {
+            if(id.HasValue) return BadRequest();
+            var emp = _employeeService.GetEmployeeById(id);
+            if(emp is null) return NotFound();
+            return View(emp);
+        }
+
     }
 }
