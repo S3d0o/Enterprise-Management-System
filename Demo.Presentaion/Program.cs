@@ -29,12 +29,12 @@ namespace Demo.Presentaion
                 //options.UseSqlServer(builder.Configuration["ConnectionStrings:DefaultConnectionString"]); // first way
                 //options.UseSqlServer(builder.Configuration.GetSection("ConnectionStrings")["DefaultConnectionString"]); // second way
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString")); // third way, better way if u named the section "ConnectionString"
-
             });
             builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
             builder.Services.AddScoped<IDepartmentService,DepartmentService>();
             builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             builder.Services.AddAutoMapper(cfg => { },typeof(MappingProfile).Assembly);
+            builder.Services.AddScoped<IEmployeeService, EmployeeService>();
             #endregion
 
             var app = builder.Build();

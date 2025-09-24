@@ -7,7 +7,7 @@ using Demo.DataAccess.Models.EmployeeModule;
 
 namespace Demo.BusinessLogic.Services.Classes
 {
-    internal class EmployeeService(IEmployeeRepository _employeeRepository, IMapper _mapper) : IEmployeeService
+    public class EmployeeService(IEmployeeRepository _employeeRepository, IMapper _mapper) : IEmployeeService
     {
         public IEnumerable<EmployeeDto> GetAllEmployees(bool withTracking = false)
         {
@@ -69,5 +69,6 @@ namespace Demo.BusinessLogic.Services.Classes
                 return _employeeRepository.Update(employee) > 0 ? true : false;
             }
         }
+
     }
 }

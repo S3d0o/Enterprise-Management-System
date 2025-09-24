@@ -18,5 +18,5 @@ namespace Demo.BusinessLogic.DTOS.EmployeeDTOS
         public string EmployeeType { get; set; }
     }
 
-    }
 }
+
