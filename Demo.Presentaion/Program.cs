@@ -1,3 +1,4 @@
+using Demo.BusinessLogic.Mappings;
 using Demo.BusinessLogic.Services.Classes;
 using Demo.BusinessLogic.Services.Interfaces;
 using Demo.DataAccess.Data.Contexts;
@@ -5,6 +6,7 @@ using Demo.DataAccess.Data.Repositories.Classes;
 using Demo.DataAccess.Data.Repositories.Interfaces;
 using Demo.DataAccess.Data.Repositories.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Demo.Presentaion
 {
@@ -32,6 +34,7 @@ namespace Demo.Presentaion
             builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
             builder.Services.AddScoped<IDepartmentService,DepartmentService>();
             builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            builder.Services.AddAutoMapper(cfg => { },typeof(MappingProfile).Assembly);
             #endregion
 
             var app = builder.Build();
