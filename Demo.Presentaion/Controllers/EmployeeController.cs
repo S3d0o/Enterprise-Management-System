@@ -1,4 +1,5 @@
 ﻿using Demo.BusinessLogic.DTOS.EmployeeDTOS;
+using Demo.BusinessLogic.Services.Classes;
 using Demo.BusinessLogic.Services.Interfaces;
 using Demo.DataAccess.Models.EmployeeModule;
 using Demo.DataAccess.Models.Shared;
@@ -107,6 +108,31 @@ namespace Demo.Presentaion.Controllers
                     ModelState.AddModelError(string.Empty, ex.Message);
             }
             return View(employeeDto);
+        }
+
+        [HttpPost]
+        public IActionResult Delete(int id)
+        {
+            if(id==0) return BadRequest();
+            try
+            {
+                bool IsDeleted = _employeeService.DeleteEmployee(id);
+                if (IsDeleted) return RedirectToAction("Index");
+                else
+                    ModelState.AddModelError(string.Empty, "Something went wrong, Employee cannot be deleted");
+            }
+            catch (Exception ex)
+            {
+                if (_env.IsDevelopment())
+                    _logger.LogError($"the department cannot be deleted because{ex.Message}");
+                else // Production environment
+                {
+                    _logger.LogError(ex, "An unexpected error occurred while deleting Employee");
+                    return View("ErrorView", ex); // return the same view with the model to let the user try again
+                }
+            }
+            return RedirectToAction(nameof(Delete), new { id });
+
         }
     }
 }
