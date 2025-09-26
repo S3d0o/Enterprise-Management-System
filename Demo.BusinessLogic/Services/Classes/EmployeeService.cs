@@ -11,6 +11,30 @@ namespace Demo.BusinessLogic.Services.Classes
     {
         public IEnumerable<EmployeeDto> GetAllEmployees(bool withTracking = false)
         {
+            //var employees = _employeeRepository.GetIEnumerable().Where(e=>e.IsDeleted==false) // filtering in memory
+            //    .Select(e=> new EmployeeDto
+            //    {
+            //        Id = e.Id,
+            //        Name = e.Name,
+            //        Age = e.Age,
+            //        Salary = e.Salary,
+            //        IsActive = e.IsActive,
+            //        Email = e.Email,
+            //    });
+            //return employees.ToList();
+            //var employees = _employeeRepository.GetIQuerable().Where(e=>e.IsDeleted==false) // filtering in the DB (Better for large data)
+            //    .Select(e=> new EmployeeDto
+            //    {
+            //        Id = e.Id,
+            //        Name = e.Name,
+            //        Age = e.Age,
+            //        Salary = e.Salary,
+            //        IsActive = e.IsActive,
+            //        Email = e.Email,
+            //    });
+            //return employees.ToList();
+
+            #region Manual and Auto Mapping
             var employees = _employeeRepository.GetAll(withTracking = false);
             return _mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeDto>>(employees);
 
@@ -25,7 +49,18 @@ namespace Demo.BusinessLogic.Services.Classes
             //    Email = e.Email,
             //    Gender = e.Gender.ToString(),
             //    EmployeeType = e.EmployeeType.ToString()
+            //}); 
+            #endregion
+
+            //return _employeeRepository.GetAll(e => new EmployeeDto
+            //{
+            //    Id = e.Id,
+            //    Name = e.Name,
+            //    Age = e.Age,
+            //    Salary=e.Salary
             //});
+
+
 
         }
         public EmployeeDetailsDto? GetEmployeeById(int id)
