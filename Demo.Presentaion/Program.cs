@@ -5,6 +5,7 @@ using Demo.DataAccess.Data.Contexts;
 using Demo.DataAccess.Data.Repositories.Classes;
 using Demo.DataAccess.Data.Repositories.Interfaces;
 using Demo.DataAccess.Data.Repositories.Repositories;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -19,7 +20,9 @@ namespace Demo.Presentaion
             #region DI Container
 
             // Add services to the container.
-            builder.Services.AddControllersWithViews();
+            builder.Services.AddControllersWithViews(options =>
+            options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute())); // or u can add an attribute for all the post actions 
+
             //Life Times [object] => AddTransient, AddScoped, AddSingleton
             //AddDbContext => Scoped for DbContext
             builder.Services.AddScoped<AppDbContext /*when any instace of AppDbContext will be created it will be on the CLR */ >();
