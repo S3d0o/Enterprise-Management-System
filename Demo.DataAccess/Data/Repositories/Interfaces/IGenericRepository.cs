@@ -1,4 +1,5 @@
 ﻿using Demo.DataAccess.Models.Shared;
+using System.Linq.Expressions;
 
 namespace Demo.DataAccess.Data.Repositories.Interfaces
 {
@@ -7,7 +8,10 @@ namespace Demo.DataAccess.Data.Repositories.Interfaces
         int Add(TEntity entity);
         int Delete(TEntity entity);
         IEnumerable<TEntity> GetAll(bool withtracking = false);
+        IEnumerable<TResult> GetAll<TResult>(Expression<Func<TEntity,TResult>> selector);
         TEntity? GetById(int id);
         int Update(TEntity entity);
+        public IEnumerable<TEntity> GetIEnumerable();
+        public IQueryable<TEntity> GetIQuerable();
     }
 }

@@ -23,6 +23,7 @@ namespace Demo.Presentaion.Controllers
         }
 
         [HttpPost]
+        //[ValidateAntiForgeryToken]
         public IActionResult Create(CreateDepartmentDto createDepartmentDto)
         {
             if (ModelState.IsValid) // server side validation
@@ -156,6 +157,8 @@ namespace Demo.Presentaion.Controllers
             return RedirectToAction(nameof(Delete), new { id });
 
         }
+
+       
     }
 
 }

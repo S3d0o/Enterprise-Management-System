@@ -1,9 +1,13 @@
+using Demo.BusinessLogic.Mappings;
 using Demo.BusinessLogic.Services.Classes;
 using Demo.BusinessLogic.Services.Interfaces;
 using Demo.DataAccess.Data.Contexts;
 using Demo.DataAccess.Data.Repositories.Classes;
+using Demo.DataAccess.Data.Repositories.Interfaces;
 using Demo.DataAccess.Data.Repositories.Repositories;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Demo.Presentaion
 {
@@ -16,7 +20,9 @@ namespace Demo.Presentaion
             #region DI Container
 
             // Add services to the container.
-            builder.Services.AddControllersWithViews();
+            builder.Services.AddControllersWithViews(options =>
+            options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute())); // or u can add an attribute for all the post actions 
+
             //Life Times [object] => AddTransient, AddScoped, AddSingleton
             //AddDbContext => Scoped for DbContext
             builder.Services.AddScoped<AppDbContext /*when any instace of AppDbContext will be created it will be on the CLR */ >();
@@ -26,10 +32,12 @@ namespace Demo.Presentaion
                 //options.UseSqlServer(builder.Configuration["ConnectionStrings:DefaultConnectionString"]); // first way
                 //options.UseSqlServer(builder.Configuration.GetSection("ConnectionStrings")["DefaultConnectionString"]); // second way
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString")); // third way, better way if u named the section "ConnectionString"
-
             });
             builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
             builder.Services.AddScoped<IDepartmentService,DepartmentService>();
+            builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            builder.Services.AddAutoMapper(cfg => { },typeof(MappingProfile).Assembly);
+            builder.Services.AddScoped<IEmployeeService, EmployeeService>();
             #endregion
 
             var app = builder.Build();

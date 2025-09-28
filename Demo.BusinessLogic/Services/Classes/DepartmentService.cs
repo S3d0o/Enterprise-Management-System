@@ -23,7 +23,7 @@ namespace Demo.BusinessLogic.Services.Classes
         // GET BY ID 
         public DepartmentDetailsDto GetDepartmentById(int id)
         {
-            var dept = Departmentrepo.GetDepartmentById(id);
+            var dept = Departmentrepo.GetById(id);
             return dept is null ? null : dept.ToDepartmentDetailsDto();// Extension Method Mapping
 
             // Mapping Types =>
@@ -47,7 +47,7 @@ namespace Demo.BusinessLogic.Services.Classes
         // DELETE
         public bool DeleteDepartment(int id)
         {
-            var dept = Departmentrepo.GetDepartmentById(id);
+            var dept = Departmentrepo.GetById(id);
             if (dept is null)
                 return false;
             int NumOfRows = Departmentrepo.Delete(dept);

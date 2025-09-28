@@ -2,7 +2,7 @@
 {
     public enum EmployeeType
     {
-        FullTimeEmployee = 1,
-        PartTimeEmployee = 2
+        FullTime = 1,
+        PartTime = 2
     }
 }
