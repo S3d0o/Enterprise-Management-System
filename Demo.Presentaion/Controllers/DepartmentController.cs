@@ -12,6 +12,10 @@ namespace Demo.Presentaion.Controllers
         // Base URL/Controller/Action  
         public ActionResult Index()
         {
+            //ViewData["message"] = "Hello from ViewData";
+            //ViewBag.message = "Hello from ViewBag";
+            ViewData["message"] = new DepartmentDto() { DeptName = "TEST" }; // safe, casting is needed (checking in compile time)
+            ViewBag.message = new DepartmentDto() { DeptName = "test" };// unsafe, no need for casting (checking in run time)
             var departments = _departmentService.GetAllDepartments();
             return View(departments); // model here is departments(Data)
         }
@@ -26,7 +30,7 @@ namespace Demo.Presentaion.Controllers
         //[ValidateAntiForgeryToken]
         public IActionResult Create(DepartmentViewModel departmentViewModel)
         {
-            if (ModelState.IsValid) // server side validation
+            if (ModelState.IsValid) // server side validation 
             {
                 try
                 {
