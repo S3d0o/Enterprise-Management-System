@@ -31,9 +31,12 @@
                     <td> @department.DeptName </td>
                     <td> @department.DeptDescription </td>
                     <td> @department.DateOfCreation </td>
-                    <td><a class="btn btn-primary " asp-controller="Department" asp-action="Details" asp-route-Id="@department.DeptId"><i class="fas fa-eye"></i>Details</a></td>
-                    <td><a class="btn btn-success " asp-controller="Department" asp-action="Edit" asp-route-Id="@department.DeptId"><i class="fas fa-edit"></i>Update</a></td>
-                    <td><a class="btn btn-danger " asp-controller="Department" asp-action="Delete" asp-route-Id="@department.DeptId"><i class="fas fa-trash"></i>Delete</a></td>
+                    <partial name="_ButtonsPartialView" model="department.DeptId"></partial>
+                    <td>
+                        <a class="btn btn-danger " asp-controller="Department" asp-action="Delete" asp-route-Id="@Model">
+                            <i class="fas fa-trash"></i>Delete
+                        </a>
+                    </td>
                     <td>
                     <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#DeleteModal-@department.DeptId">
                         <i class="fas fa-trash"></i> DeleteModal

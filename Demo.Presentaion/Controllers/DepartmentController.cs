@@ -24,13 +24,19 @@ namespace Demo.Presentaion.Controllers
 
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        public IActionResult Create(CreateDepartmentDto createDepartmentDto)
+        public IActionResult Create(DepartmentViewModel departmentViewModel)
         {
             if (ModelState.IsValid) // server side validation
             {
                 try
                 {
-                    int result = _departmentService.AddDepartment(createDepartmentDto);
+                    int result = _departmentService.AddDepartment(new CreateDepartmentDto()
+                    {
+                        Name = departmentViewModel.Name,
+                        Code = departmentViewModel.Code,
+                        Description = departmentViewModel.Description,
+                        CreatedAt = departmentViewModel.CreatedAt
+                    });
                     if (result > 0)
                     {
                         return RedirectToAction("Index");
@@ -60,7 +66,7 @@ namespace Demo.Presentaion.Controllers
                 }
             }
 
-            return View(createDepartmentDto); // to show the validation errors
+            return View(departmentViewModel); // to show the validation errors
 
         }
 
@@ -79,7 +85,7 @@ namespace Demo.Presentaion.Controllers
             if (!id.HasValue) return BadRequest();
             var department = _departmentService.GetDepartmentById(id.Value);
             if (department is null) return NotFound();
-            var updatedDepartmentDto = new DepartmentEditViewModel()
+            var updatedDepartmentDto = new DepartmentViewModel()
             {
                 Name = department.Name,
                 Code = department.Code,
@@ -91,7 +97,7 @@ namespace Demo.Presentaion.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit([FromRoute] int? id, DepartmentEditViewModel departmentVM)
+        public IActionResult Edit([FromRoute] int? id, DepartmentViewModel departmentVM)
         {
             if (!ModelState.IsValid) return View(departmentVM);
             try
