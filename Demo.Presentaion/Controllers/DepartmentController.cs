@@ -41,14 +41,13 @@ namespace Demo.Presentaion.Controllers
                         Description = departmentViewModel.Description,
                         CreatedAt = departmentViewModel.CreatedAt
                     });
+                    string message;
                     if (result > 0)
-                    {
-                        return RedirectToAction("Index");
-                    }
+                        message ="Department Created Successfully";
                     else
-                    {
-                        ModelState.AddModelError(string.Empty, "Something went wrong, Department cannot be created");
-                    }
+                        message = "Something went wrong, Department cannot be created";
+                    TempData["message"] = message; // to show the message in the redirected view (Index)
+                    return RedirectToAction(nameof(Index));
                 }
                 catch (Exception ex)
                 {
