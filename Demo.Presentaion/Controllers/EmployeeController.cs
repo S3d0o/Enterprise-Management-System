@@ -100,7 +100,8 @@ namespace Demo.Presentaion.Controllers
                 HiringDate = emp.HiringDate,
                 EmployeeType = Enum.Parse<EmployeeType>(emp.EmployeeType),
                 Gender = Enum.Parse<Gender>(emp.Gender),
-                                    
+                DepartmentId = emp.DepartmentId
+
 
             };
             return View(employeeViewModel);

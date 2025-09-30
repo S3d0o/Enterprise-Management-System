@@ -1,4 +1,6 @@
-﻿namespace Demo.BusinessLogic.DTOS.EmployeeDTOS
+﻿using Demo.DataAccess.Models;
+
+namespace Demo.BusinessLogic.DTOS.EmployeeDTOS
 {
     public class EmployeeDetailsDto
     {
@@ -17,5 +19,7 @@
         public DateTime? CreatedAt { get; set; }
         public int ModifiedBy { get; set; }
         public DateTime? ModifiedAt { get; set; }
+        public string? Department { get; set; }
+        public int? DepartmentId { get; set; }
     }
 }

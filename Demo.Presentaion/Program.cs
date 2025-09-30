@@ -32,6 +32,7 @@ namespace Demo.Presentaion
                 //options.UseSqlServer(builder.Configuration["ConnectionStrings:DefaultConnectionString"]); // first way
                 //options.UseSqlServer(builder.Configuration.GetSection("ConnectionStrings")["DefaultConnectionString"]); // second way
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString")); // third way, better way if u named the section "ConnectionString"
+                options.UseLazyLoadingProxies(); // to make the navigation properties virtual and load it when u need it
             });
             builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
             builder.Services.AddScoped<IDepartmentService,DepartmentService>();
