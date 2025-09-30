@@ -2,10 +2,11 @@
 using Demo.DataAccess.Models.Shared;
 using System.ComponentModel.DataAnnotations;
 
-namespace Demo.BusinessLogic.DTOS.EmployeeDTOS
+namespace Demo.Presentaion.ViewModels
 {
-    public class CreateEmployeeDto
+    public class EmployeeViewModel
     {
+        public int id { get; set; } // efcore check if the entity already exists
         [Required(ErrorMessage = "Name Can't Be Null")]
         [MaxLength(50, ErrorMessage = "Max length should be 50 character")]
         [MinLength(3, ErrorMessage = "Min length should be 3 characters")]
@@ -13,8 +14,6 @@ namespace Demo.BusinessLogic.DTOS.EmployeeDTOS
 
         [Range(22, 35)]
         public int? Age { get; set; }
-
-        [Required]
         [RegularExpression(@"^\d{1,5}-[A-Za-z]+(?:\s[A-Za-z]+)*-[A-Za-z]+(?:\s[A-Za-z]+)*-[A-Za-z]+$",
      ErrorMessage = "Address must be like 123-Street-City-Country")]
         public string? Address { get; set; }
@@ -38,6 +37,7 @@ namespace Demo.BusinessLogic.DTOS.EmployeeDTOS
         public Gender Gender { get; set; }
 
         public EmployeeType EmployeeType { get; set; }
-        public int? DepartmentId { get; set; }
+        [Display(Name="Department")]
+        public int? DepartmentId { get; set; } // Foriegn Key
     }
 }
