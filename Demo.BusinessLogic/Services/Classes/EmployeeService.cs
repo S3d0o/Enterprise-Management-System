@@ -9,60 +9,21 @@ namespace Demo.BusinessLogic.Services.Classes
 {
     public class EmployeeService(IEmployeeRepository _employeeRepository, IMapper _mapper) : IEmployeeService
     {
-        public IEnumerable<EmployeeDto> GetAllEmployees(bool withTracking = false)
-        {
-            //var employees = _employeeRepository.GetIEnumerable().Where(e=>e.IsDeleted==false) // filtering in memory
-            //    .Select(e=> new EmployeeDto
-            //    {
-            //        Id = e.Id,
-            //        Name = e.Name,
-            //        Age = e.Age,
-            //        Salary = e.Salary,
-            //        IsActive = e.IsActive,
-            //        Email = e.Email,
-            //    });
-            //return employees.ToList();
-            //var employees = _employeeRepository.GetIQuerable().Where(e=>e.IsDeleted==false) // filtering in the DB (Better for large data)
-            //    .Select(e=> new EmployeeDto
-            //    {
-            //        Id = e.Id,
-            //        Name = e.Name,
-            //        Age = e.Age,
-            //        Salary = e.Salary,
-            //        IsActive = e.IsActive,
-            //        Email = e.Email,
-            //    });
-            //return employees.ToList();
 
-            #region Manual and Auto Mapping
-            var employees = _employeeRepository.GetAll(withTracking = false);
+        public IEnumerable<EmployeeDto> GetAllEmployees(string? EmployeeSearchName, bool withTracking = false)
+        {
+            IEnumerable<Employee> employees;
+            if (!string.IsNullOrEmpty(EmployeeSearchName))
+            {
+                employees = _employeeRepository.GetAll(e => e.Name.ToLower().Contains(EmployeeSearchName.ToLower()));
+            }
+            else
+                employees = _employeeRepository.GetAll(withTracking);
+
             return _mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeDto>>(employees);
 
-            //return employees.Select(e => new EmployeeDto()
-            //{
-            //    // Manually map properties from Employee to EmployeeDto
-            //    Id = e.Id,
-            //    Name = e.Name,
-            //    Age = e.Age,
-            //    Salary = e.Salary,
-            //    IsActive = e.IsActive,
-            //    Email = e.Email,
-            //    Gender = e.Gender.ToString(),
-            //    EmployeeType = e.EmployeeType.ToString()
-            //}); 
-            #endregion
-
-            //return _employeeRepository.GetAll(e => new EmployeeDto
-            //{
-            //    Id = e.Id,
-            //    Name = e.Name,
-            //    Age = e.Age,
-            //    Salary=e.Salary
-            //});
-
-
-
         }
+
         public EmployeeDetailsDto? GetEmployeeById(int id)
         {
             var employee = _employeeRepository.GetById(id);

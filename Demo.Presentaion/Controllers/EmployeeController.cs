@@ -13,9 +13,10 @@ namespace Demo.Presentaion.Controllers
         IWebHostEnvironment _env, ILogger<EmployeeController> _logger) : Controller
     {
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Index(string? EmployeeSearchName)
         {
-            var employees = _employeeService.GetAllEmployees();
+            
+            var employees = _employeeService.GetAllEmployees(EmployeeSearchName);
             return View(employees);
         }
        

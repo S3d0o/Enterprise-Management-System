@@ -13,6 +13,15 @@ namespace Demo.DataAccess.Data.Repositories.Classes
                 return _dbContext.Set<TEntity>().Where(e => e.IsDeleted == false).ToList();
             return _dbContext.Set<TEntity>().Where(e => e.IsDeleted == false).AsNoTracking().ToList();
         }
+        public IEnumerable<TResult> GetAll<TResult>(Expression<Func<TEntity, TResult>> selector)
+        {
+           return _dbContext.Set<TEntity>().Where(e => e.IsDeleted == false)
+                .Select(selector).ToList();
+        }
+        public IEnumerable<TEntity> GetAll(Expression<Func<TEntity,bool>> predicate)
+        {
+           return _dbContext.Set<TEntity>().Where(predicate).Where(Entity=> Entity.IsDeleted == false).ToList();
+        }
         // GET BY ID
         public TEntity? GetById(int id) => _dbContext.Set<TEntity>().Find(id); // the connection will be opened and closed automatically , CLR will manage it
         //ADD
@@ -43,10 +52,5 @@ namespace Demo.DataAccess.Data.Repositories.Classes
             return _dbContext.Set<TEntity>();
         }
 
-        public IEnumerable<TResult> GetAll<TResult>(Expression<Func<TEntity, TResult>> selector)
-        {
-           return _dbContext.Set<TEntity>().Where(e => e.IsDeleted == false)
-                .Select(selector).ToList();
-        }
     }
 }
