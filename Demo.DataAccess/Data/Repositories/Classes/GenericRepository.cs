@@ -25,23 +25,19 @@ namespace Demo.DataAccess.Data.Repositories.Classes
         // GET BY ID
         public TEntity? GetById(int id) => _dbContext.Set<TEntity>().Find(id); // the connection will be opened and closed automatically , CLR will manage it
         //ADD
-        public int Add(TEntity entity)
+        public void Add(TEntity entity)
         {
             _dbContext.Set<TEntity>().Add(entity);
-            return _dbContext.SaveChanges(); // return the number of affected rows
         }
         //UPDATE
-        public int Update(TEntity entity)
+        public void Update(TEntity entity)
         {
             _dbContext.Set<TEntity>().Update(entity);
-            return _dbContext.SaveChanges(); // return the number of affected rows
         }
         //DELETE
-        public int Delete(TEntity entity)
+        public void Delete(TEntity entity)
         {
             _dbContext.Set<TEntity>().Remove(entity);
-            return _dbContext.SaveChanges(); // return the number of affected rows
-
         }
         public IEnumerable<TEntity> GetIEnumerable()
         {

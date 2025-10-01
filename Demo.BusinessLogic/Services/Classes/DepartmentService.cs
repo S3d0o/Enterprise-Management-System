@@ -2,20 +2,21 @@
 using Demo.BusinessLogic.Factories;
 using Demo.BusinessLogic.Services.Interfaces;
 using Demo.DataAccess.Data.Repositories.Classes;
+using Demo.DataAccess.Data.Repositories.Interfaces;
 using Demo.DataAccess.Data.Repositories.Repositories;
 using Demo.DataAccess.Models;
 using System.Threading.Channels;
 
 namespace Demo.BusinessLogic.Services.Classes
 {
-    public class DepartmentService(IDepartmentRepository Departmentrepo) : IDepartmentService
+    public class DepartmentService(IUnitOfWork _unitOfWork) : IDepartmentService
     // Dependency Injection, Primar constructors for classes
     {
         // GET ALL => Id,Code,Name,Description,DateOfCreation [Date part only] 
         public IEnumerable<DepartmentDto> GetAllDepartments()
         {
             // call the repo
-            var departments = Departmentrepo.GetAll();
+            var departments = _unitOfWork.DepartmentRepository.GetAll();
             return departments.Select(d => d.ToDepartmentDto() /* Extension Method Mapping */
             );
         }
@@ -23,7 +24,7 @@ namespace Demo.BusinessLogic.Services.Classes
         // GET BY ID 
         public DepartmentDetailsDto GetDepartmentById(int id)
         {
-            var dept = Departmentrepo.GetById(id);
+            var dept = _unitOfWork.DepartmentRepository.GetById(id);
             return dept is null ? null : dept.ToDepartmentDetailsDto();// Extension Method Mapping
 
             // Mapping Types =>
@@ -37,21 +38,25 @@ namespace Demo.BusinessLogic.Services.Classes
         }
 
         // ADD
-        public int AddDepartment(CreateDepartmentDto departmentDto) => Departmentrepo.Add(departmentDto.ToEntity());
-
+        public int AddDepartment(CreateDepartmentDto departmentDto)
+        {
+            _unitOfWork.DepartmentRepository.Add(departmentDto.ToEntity());
+            return _unitOfWork.SaveChanges(); // return the number of affected rows
+        }
         // UPDATE
         public int UpdateDepartment(UpdatedDepartmentDto updatedDepartmentDto)
         {
-            return Departmentrepo.Update(updatedDepartmentDto.ToEntity());
+            _unitOfWork.DepartmentRepository.Update(updatedDepartmentDto.ToEntity());
+            return _unitOfWork.SaveChanges(); // return the number of affected rows
         }
         // DELETE
         public bool DeleteDepartment(int id)
         {
-            var dept = Departmentrepo.GetById(id);
+            var dept = _unitOfWork.DepartmentRepository.GetById(id);
             if (dept is null)
                 return false;
-            int NumOfRows = Departmentrepo.Delete(dept);
-            return NumOfRows > 0; // no need for turnary operator !
+             _unitOfWork.DepartmentRepository.Delete(dept);
+           return _unitOfWork.SaveChanges() > 0; // return true if the number of affected rows > 0
         }
     }
 }
