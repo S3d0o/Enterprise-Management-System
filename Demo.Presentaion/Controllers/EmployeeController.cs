@@ -3,41 +3,59 @@ using Demo.BusinessLogic.Services.Classes;
 using Demo.BusinessLogic.Services.Interfaces;
 using Demo.DataAccess.Models.EmployeeModule;
 using Demo.DataAccess.Models.Shared;
+using Demo.Presentaion.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Numerics;
 
 namespace Demo.Presentaion.Controllers
 {
-    public class EmployeeController(IEmployeeService _employeeService,
+    public class EmployeeController(IEmployeeService _employeeService, 
         IWebHostEnvironment _env, ILogger<EmployeeController> _logger) : Controller
     {
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Index(string? EmployeeSearchName)
         {
-            var employees = _employeeService.GetAllEmployees();
+            
+            var employees = _employeeService.GetAllEmployees(EmployeeSearchName);
             return View(employees);
         }
        
         [HttpGet]
-        public IActionResult Create()
+        public IActionResult Create() // to avoid over-injecting in the constructor
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult Create(CreateEmployeeDto employee)
+        public IActionResult Create(EmployeeViewModel employeemodel)
         {
             if (!ModelState.IsValid)
-                return View(employee);
+                return View(employeemodel);
             try
             {
-                int result = _employeeService.CreateEmployee(employee);
+
+                int result = _employeeService.CreateEmployee(new CreateEmployeeDto()
+
+                {
+                    Name = employeemodel.Name,
+                    Age = employeemodel.Age,
+                    Address = employeemodel.Address,
+                    Salary = employeemodel.Salary,
+                    IsActive = employeemodel.IsActive,
+                    DepartmentId = employeemodel.DepartmentId,
+                    Email = employeemodel.Email,
+                    PhoneNumber = employeemodel.PhoneNumber,
+                    HiringDate = employeemodel.HiringDate,
+                    EmployeeType = Enum.Parse<EmployeeType>(employeemodel.EmployeeType.ToString()),
+                    Gender = employeemodel.Gender
+
+                });
 
                 if (result > 0)
                     return RedirectToAction(nameof(Index));
 
                 ModelState.AddModelError(string.Empty, "The employee could not be created. Please try again.");
-                return View(employee);
+                return View(employeemodel);
             }
             catch (Exception ex)
             {
@@ -47,7 +65,7 @@ namespace Demo.Presentaion.Controllers
                 {
                     // Show detailed error message in Dev
                     ModelState.AddModelError(string.Empty, ex.Message);
-                    return View(employee);
+                    return View(employeemodel);
                 }
 
                 // Show generic error in Prod
@@ -69,9 +87,8 @@ namespace Demo.Presentaion.Controllers
         {
             if(!id.HasValue) return BadRequest();
             var emp = _employeeService.GetEmployeeById(id!.Value);
-            var employee = _employeeService.GetEmployeeById(id.Value);
-            if(employee is null) return NotFound();
-            var employeeDto = new UpdatedEmployeeDto()
+            if(emp is null) return NotFound();
+            var employeeViewModel = new EmployeeViewModel() // DepartmentId
             {
                 id = emp!.Id,
                 Name = emp.Name,
@@ -83,19 +100,37 @@ namespace Demo.Presentaion.Controllers
                 PhoneNumber = emp.PhoneNumber,
                 HiringDate = emp.HiringDate,
                 EmployeeType = Enum.Parse<EmployeeType>(emp.EmployeeType),
-                Gender = Enum.Parse<Gender>(emp.Gender)
+                Gender = Enum.Parse<Gender>(emp.Gender),
+                DepartmentId = emp.DepartmentId
+
+
             };
-            return View(employeeDto);
+            return View(employeeViewModel);
         }
 
         [HttpPost]
-        public IActionResult Edit([FromRoute] int? id, UpdatedEmployeeDto employeeDto)
+        public IActionResult Edit([FromRoute] int? id, EmployeeViewModel employeeViewModel)
         {
-            if (!id.HasValue || id.Value != employeeDto.id) return BadRequest();
-            if(!ModelState.IsValid) return View(employeeDto);
+            if (!id.HasValue || id.Value != employeeViewModel.id) return BadRequest();
+            if(!ModelState.IsValid) return View(employeeViewModel);
             try
             {
-                int result = _employeeService.UpdateEmployee(employeeDto);
+                int result = _employeeService.UpdateEmployee(new UpdatedEmployeeDto()
+                {
+                    id = id.Value, // efcore check if the entity already exists (takes the id from the route)
+                    Name = employeeViewModel.Name,
+                    Age = employeeViewModel.Age,
+                    Address = employeeViewModel.Address,
+                    Salary = employeeViewModel.Salary,
+                    IsActive = employeeViewModel.IsActive,
+                    DepartmentId = employeeViewModel.DepartmentId,
+                    Email = employeeViewModel.Email,
+                    PhoneNumber = employeeViewModel.PhoneNumber,
+                    HiringDate = employeeViewModel.HiringDate,
+                    EmployeeType = Enum.Parse<EmployeeType>(employeeViewModel.EmployeeType.ToString()),
+                    Gender = employeeViewModel.Gender,
+
+                });
                 if(result>0)
                     return RedirectToAction(nameof(Index));
                 ModelState.AddModelError(string.Empty, "The employee could not be updated. Please try again.");
@@ -107,7 +142,7 @@ namespace Demo.Presentaion.Controllers
                 else
                     ModelState.AddModelError(string.Empty, ex.Message);
             }
-            return View(employeeDto);
+            return View(employeeViewModel);
         }
 
         [HttpPost]

@@ -6,5 +6,6 @@ namespace Demo.DataAccess.Data.Repositories.Classes
 {
     public class EmployeeRepository(AppDbContext _dbContext) :GenericRepository<Employee>(_dbContext), IEmployeeRepository
     {
+        
     }
 }

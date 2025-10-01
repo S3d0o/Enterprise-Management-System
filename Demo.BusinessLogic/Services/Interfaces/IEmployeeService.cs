@@ -7,7 +7,7 @@ namespace Demo.BusinessLogic.Services.Interfaces
     {
         // Define method signatures for employee-related operations
         // GetAll
-        IEnumerable<EmployeeDto> GetAllEmployees(bool withTracking = false);
+        IEnumerable<EmployeeDto> GetAllEmployees(string? EmployeeSearchName,bool withTracking = false);
         // GetById
         EmployeeDetailsDto? GetEmployeeById(int id);
         //Create Employee

@@ -12,6 +12,10 @@ namespace Demo.Presentaion.Controllers
         // Base URL/Controller/Action  
         public ActionResult Index()
         {
+            //ViewData["message"] = "Hello from ViewData";
+            //ViewBag.message = "Hello from ViewBag";
+            ViewData["message"] = new DepartmentDto() { DeptName = "TEST" }; // safe, casting is needed (checking in compile time)
+            ViewBag.message = new DepartmentDto() { DeptName = "test" };// unsafe, no need for casting (checking in run time)
             var departments = _departmentService.GetAllDepartments();
             return View(departments); // model here is departments(Data)
         }
@@ -24,21 +28,26 @@ namespace Demo.Presentaion.Controllers
 
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        public IActionResult Create(CreateDepartmentDto createDepartmentDto)
+        public IActionResult Create(DepartmentViewModel departmentViewModel)
         {
-            if (ModelState.IsValid) // server side validation
+            if (ModelState.IsValid) // server side validation 
             {
                 try
                 {
-                    int result = _departmentService.AddDepartment(createDepartmentDto);
+                    int result = _departmentService.AddDepartment(new CreateDepartmentDto()
+                    {
+                        Name = departmentViewModel.Name,
+                        Code = departmentViewModel.Code,
+                        Description = departmentViewModel.Description,
+                        CreatedAt = departmentViewModel.CreatedAt
+                    });
+                    string message;
                     if (result > 0)
-                    {
-                        return RedirectToAction("Index");
-                    }
+                        message ="Department Created Successfully";
                     else
-                    {
-                        ModelState.AddModelError(string.Empty, "Something went wrong, Department cannot be created");
-                    }
+                        message = "Something went wrong, Department cannot be created";
+                    TempData["message"] = message; // to show the message in the redirected view (Index)
+                    return RedirectToAction(nameof(Index));
                 }
                 catch (Exception ex)
                 {
@@ -60,7 +69,7 @@ namespace Demo.Presentaion.Controllers
                 }
             }
 
-            return View(createDepartmentDto); // to show the validation errors
+            return View(departmentViewModel); // to show the validation errors
 
         }
 
@@ -79,7 +88,7 @@ namespace Demo.Presentaion.Controllers
             if (!id.HasValue) return BadRequest();
             var department = _departmentService.GetDepartmentById(id.Value);
             if (department is null) return NotFound();
-            var updatedDepartmentDto = new DepartmentEditViewModel()
+            var updatedDepartmentDto = new DepartmentViewModel()
             {
                 Name = department.Name,
                 Code = department.Code,
@@ -91,7 +100,7 @@ namespace Demo.Presentaion.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit([FromRoute] int? id, DepartmentEditViewModel departmentVM)
+        public IActionResult Edit([FromRoute] int? id, DepartmentViewModel departmentVM)
         {
             if (!ModelState.IsValid) return View(departmentVM);
             try

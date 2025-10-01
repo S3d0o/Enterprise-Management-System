@@ -1,0 +1,74 @@
+﻿@model EmployeeViewModel
+@inject IDepartmentService _departmentService
+@{
+    var Departments = new SelectList(_departmentService.GetAllDepartments(), nameof(DepartmentDto.DeptId), nameof(DepartmentDto.DeptName));
+}
+
+<div class="form-group mb-3 col-6">
+    <label class="form-label" asp-for="Name"></label>
+    <input asp-for="Name" class="form-control" />
+    <span asp-validation-for="Name" class="text-danger"></span>
+</div>
+<div class="form-group mb-3 col-6">
+    <label class="form-label" asp-for="Email"></label>
+    <input asp-for="Email" class="form-control" />
+    <span asp-validation-for="Email" class="text-danger"></span>
+</div>
+<div class="form-group mb-3 col-6">
+    <label class="form-label" asp-for="Address"></label>
+    <input asp-for="Address" class="form-control" />
+    <span asp-validation-for="Address" class="text-danger"></span>
+</div>
+<div class="form-group mb-3 col-6">
+    <label class="form-label" asp-for="PhoneNumber"></label>
+    <input asp-for="PhoneNumber" class="form-control" />
+    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+</div>
+<div class="form-group mb-3 col-6">
+    <label class="form-label" asp-for="Age"></label>
+    <input asp-for="Age" class="form-control" />
+    <span asp-validation-for="Age" class="text-danger"></span>
+</div>
+<div class="form-group mb-3 col-6">
+    <label class="form-label" asp-for="HiringDate"></label>
+    <input asp-for="HiringDate" class="form-control" type="date" />
+    <span asp-validation-for="HiringDate" class="text-danger"></span>
+</div>
+<div class="form-group mb-3 col-6">
+    <label class="form-label" asp-for="Salary"></label>
+    <input asp-for="Salary" class="form-control" />
+    <span asp-validation-for="Salary" class="text-danger"></span>
+</div>
+<div class="form-group mb-3 col-6">
+    <label class="form-label" asp-for="DepartmentId"></label>
+    <select asp-for="DepartmentId" asp-items="Departments"
+            class="form-control">
+        <option value="@string.Empty">Select Department</option>
+    </select>
+    <span asp-validation-for="DepartmentId" class="text-danger"></span>
+</div>
+<div class="form-group mb-3 col-6">
+    <label class="form-label" asp-for="Gender"></label>
+    <div>
+        @foreach (Gender genderOption in Enum.GetValues<Gender>())
+        {
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" asp-for="Gender" value="@genderOption" />
+                <label class="form-check-label">@genderOption</label>
+            </div>
+        }
+    </div>
+    <span asp-validation-for="Gender" class="text-danger"></span>
+</div>
+<div class="form-group mb-3 col-6">
+    <label class="form-label" asp-for="EmployeeType"></label>
+    <select asp-for="EmployeeType" asp-items="Html.GetEnumSelectList<EmployeeType>()"
+            class="form-control">
+        <option value="">Select Employee Type</option>
+    </select>
+    <span asp-validation-for="EmployeeType" class="text-danger"></span>
+</div>
+<div class="form-group mb-3 col-6">
+    <input asp-for="IsActive" class="form-check-input" />
+    <label class="col-form-label" asp-for="IsActive"></label>
+</div>

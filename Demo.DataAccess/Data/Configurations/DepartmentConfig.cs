@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Demo.DataAccess.Models.EmployeeModule;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 namespace Demo.DataAccess.Data.Configurations
 {
     internal class DepartmentConfig : BaseEntityConfigurations<Department>, IEntityTypeConfiguration<Department>
@@ -9,6 +10,10 @@ namespace Demo.DataAccess.Data.Configurations
             builder.Property(d=>d.Id).UseIdentityColumn(10,10);
             builder.Property(d => d.Name).IsRequired().HasMaxLength(20);
             builder.Property(d => d.Code).HasMaxLength(20);
+            builder.HasMany(d => d.Employees)
+                .WithOne(e => e.Department)
+                .HasForeignKey(e => e.DepartmentId)
+                .OnDelete(DeleteBehavior.SetNull);
            base.Configure(builder);
 
         }
