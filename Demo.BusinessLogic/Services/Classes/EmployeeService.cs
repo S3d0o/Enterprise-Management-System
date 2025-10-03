@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Demo.BusinessLogic.DTOS.EmployeeDTOS;
+using Demo.BusinessLogic.Services.Attachment_Service;
 using Demo.BusinessLogic.Services.Interfaces;
 using Demo.DataAccess.Data.Repositories.Interfaces;
 using Demo.DataAccess.Models.EmployeeModule;
@@ -7,7 +8,7 @@ using Demo.DataAccess.Models.EmployeeModule;
 
 namespace Demo.BusinessLogic.Services.Classes
 {
-    public class EmployeeService(IUnitOfWork _unitOfWork, IMapper _mapper) : IEmployeeService
+    public class EmployeeService(IUnitOfWork _unitOfWork, IMapper _mapper,IAttachmentService _attachmentService) : IEmployeeService
     {
         public IEnumerable<EmployeeDto> GetAllEmployees(string? EmployeeSearchName, bool withTracking = false)
         {
