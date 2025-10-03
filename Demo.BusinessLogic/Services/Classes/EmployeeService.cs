@@ -24,7 +24,6 @@ namespace Demo.BusinessLogic.Services.Classes
             return _mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeDto>>(employees);
 
         }
-
         public EmployeeDetailsDto? GetEmployeeById(int id)
         {
             var employee = _unitOfWork.EmployeeRepository.GetById(id);
@@ -50,8 +49,18 @@ namespace Demo.BusinessLogic.Services.Classes
         }
         public int CreateEmployee(CreateEmployeeDto employeeDto)
         {
-             _unitOfWork.EmployeeRepository.Add(_mapper.Map<CreateEmployeeDto, Employee>(employeeDto));
+            var employee = _mapper.Map<CreateEmployeeDto, Employee>(employeeDto);
+
+            if (employeeDto.Image is not null)
+            {
+               string? imgName = _attachmentService.Upload(employeeDto.Image,"Images");
+                employee.ImageName = imgName;
+
+            }
+            _unitOfWork.EmployeeRepository.Add(employee);
+
             return _unitOfWork.SaveChanges();
+            
         }   
         public int UpdateEmployee(UpdatedEmployeeDto updatedEmployee)
         {
@@ -69,6 +78,7 @@ namespace Demo.BusinessLogic.Services.Classes
                 return _unitOfWork.SaveChanges() > 0;
             }
         }
+
 
     }
 }

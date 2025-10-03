@@ -26,7 +26,7 @@ namespace Demo.BusinessLogic.Services.Attachment_Service
             const long MaxSize = 5_242_880; // 5 MB
             if (file.Length > MaxSize || file.Length == 0) return null;
             // Folder Path 
-            var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Attachemnts", folderName);
+            var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Attachments", folderName);
             // make the name of the file unique
             var FileName = $"{file.FileName}_{Guid.NewGuid()}";
             // File Path
