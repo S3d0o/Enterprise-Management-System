@@ -46,7 +46,14 @@ namespace Demo.BusinessLogic.Services.Classes
         }   
         public int UpdateEmployee(UpdatedEmployeeDto updatedEmployee)
         {
-            _unitOfWork.EmployeeRepository.Update(_mapper.Map<UpdatedEmployeeDto, Employee>(updatedEmployee));
+           var emp = _mapper.Map<UpdatedEmployeeDto, Employee>(updatedEmployee);
+            if (updatedEmployee.Image is not null)
+            {
+                string? imgName = _attachmentService.Upload(updatedEmployee.Image, "Images");
+                emp.ImageName = imgName;
+
+            }
+            _unitOfWork.EmployeeRepository.Update(emp);
             return _unitOfWork.SaveChanges();
         }
         public bool DeleteEmployee(int id)
