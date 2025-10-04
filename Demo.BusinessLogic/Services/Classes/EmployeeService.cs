@@ -28,24 +28,6 @@ namespace Demo.BusinessLogic.Services.Classes
         {
             var employee = _unitOfWork.EmployeeRepository.GetById(id);
             return employee == null ? null : _mapper.Map<EmployeeDetailsDto>(employee);
-            //    new EmployeeDetailsDto()
-            //{
-            //    Id = employee.Id,
-            //    Name = employee.Name,
-            //    Age = employee.Age,
-            //    Salary = employee.Salary,
-            //    IsActive = employee.IsActive,
-            //    Email = employee.Email,
-            //    Address = employee.Address,
-            //    Gender = employee.Gender.ToString(),
-            //    EmployeeType = employee.EmployeeType.ToString(),
-            //    PhoneNumber = employee.PhoneNumber,
-            //    HiringDate = DateOnly.FromDateTime(employee.HiringDate),
-            //    CreatedBy = employee.CreatedBy,
-            //    CreatedOn = employee.CreatedAt,
-            //    ModifiedBy = employee.ModifiedBy,
-            //    ModifiedOn = employee.ModifiedAt
-            //};
         }
         public int CreateEmployee(CreateEmployeeDto employeeDto)
         {
