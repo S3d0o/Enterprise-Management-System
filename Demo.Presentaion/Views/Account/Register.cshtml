@@ -1,0 +1,77 @@
+﻿@model RegisterViewModel
+@{
+    ViewData["Title"] = "Register";
+    Layout = "~/Views/Shared/_AuthLayout.cshtml";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+</head>
+<body>
+    <div class="main">
+        <!-- Sign up form -->
+        <section class="signup">
+            <div class="container">
+                <div class="signup-content">
+                    <div class="signup-form">
+                        <h2 class="form-title">Sign up</h2>
+                        <form method="POST" asp-controller="Account" asp-action="Register">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="form-group">
+                                <label asp-for="UserName"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                                <input asp-for="UserName" placeholder="Your Name" />
+                                <span asp-validation-for="UserName" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="FirstName"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                                <input asp-for="FirstName" placeholder="FirstName"/>
+                                <span asp-validation-for="FirstName" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="LastName"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                                <input asp-for="LastName" placeholder="LastName" />
+                                <span asp-validation-for="LastName" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Email"><i class="zmdi zmdi-email"></i></label>
+                                <input asp-for="Email" placeholder="Your Email" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Password"><i class="zmdi zmdi-lock"></i></label>
+                                <input asp-for="Password" placeholder="Password" />
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="ConfirmPassword"><i class="zmdi zmdi-lock-outline"></i></label>
+                                <input asp-for="ConfirmPassword" placeholder="Confirm your password" />
+                                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                            </div>
+                            <div class="form-group form-check">
+                                <input asp-for="IsAgree" class="form-check-input" type="checkbox" />
+                                <label class="form-check-label" for="agreeCheck">
+                                    I agree to the <a asp-action="TermService" target="_blank">Terms of Service</a>.
+                                </label>
+                                <span asp-validation-for="IsAgree" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group form-button">
+                                <input type="submit" name="signup" id="signup" class="form-submit" value="Register" />
+                            </div>
+                        </form>
+                    </div>
+                    <div class="signup-image">
+                        <figure><img src="~/AuthImages/signup-image.jpg" alt="sing up image"></figure>
+                        <a asp-action="Login" class="signup-image-link">I am already member</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <script src="vendor/jquery/jquery.min.js"></script>
+        <script src="js/main.js"></script>
+</body>
+</html>
+
