@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Demo.BusinessLogic.DTOS.EmployeeDTOS;
+using Demo.BusinessLogic.Services.Attachment_Service;
 using Demo.BusinessLogic.Services.Interfaces;
 using Demo.DataAccess.Data.Repositories.Interfaces;
 using Demo.DataAccess.Models.EmployeeModule;
@@ -7,7 +8,7 @@ using Demo.DataAccess.Models.EmployeeModule;
 
 namespace Demo.BusinessLogic.Services.Classes
 {
-    public class EmployeeService(IUnitOfWork _unitOfWork, IMapper _mapper) : IEmployeeService
+    public class EmployeeService(IUnitOfWork _unitOfWork, IMapper _mapper,IAttachmentService _attachmentService) : IEmployeeService
     {
         public IEnumerable<EmployeeDto> GetAllEmployees(string? EmployeeSearchName, bool withTracking = false)
         {
@@ -23,38 +24,36 @@ namespace Demo.BusinessLogic.Services.Classes
             return _mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeDto>>(employees);
 
         }
-
         public EmployeeDetailsDto? GetEmployeeById(int id)
         {
             var employee = _unitOfWork.EmployeeRepository.GetById(id);
             return employee == null ? null : _mapper.Map<EmployeeDetailsDto>(employee);
-            //    new EmployeeDetailsDto()
-            //{
-            //    Id = employee.Id,
-            //    Name = employee.Name,
-            //    Age = employee.Age,
-            //    Salary = employee.Salary,
-            //    IsActive = employee.IsActive,
-            //    Email = employee.Email,
-            //    Address = employee.Address,
-            //    Gender = employee.Gender.ToString(),
-            //    EmployeeType = employee.EmployeeType.ToString(),
-            //    PhoneNumber = employee.PhoneNumber,
-            //    HiringDate = DateOnly.FromDateTime(employee.HiringDate),
-            //    CreatedBy = employee.CreatedBy,
-            //    CreatedOn = employee.CreatedAt,
-            //    ModifiedBy = employee.ModifiedBy,
-            //    ModifiedOn = employee.ModifiedAt
-            //};
         }
         public int CreateEmployee(CreateEmployeeDto employeeDto)
         {
-             _unitOfWork.EmployeeRepository.Add(_mapper.Map<CreateEmployeeDto, Employee>(employeeDto));
+            var employee = _mapper.Map<CreateEmployeeDto, Employee>(employeeDto);
+
+            if (employeeDto.Image is not null)
+            {
+               string? imgName = _attachmentService.Upload(employeeDto.Image,"Images");
+                employee.ImageName = imgName;
+
+            }
+            _unitOfWork.EmployeeRepository.Add(employee);
+
             return _unitOfWork.SaveChanges();
+            
         }   
         public int UpdateEmployee(UpdatedEmployeeDto updatedEmployee)
         {
-            _unitOfWork.EmployeeRepository.Update(_mapper.Map<UpdatedEmployeeDto, Employee>(updatedEmployee));
+           var emp = _mapper.Map<UpdatedEmployeeDto, Employee>(updatedEmployee);
+            if (updatedEmployee.Image is not null)
+            {
+                string? imgName = _attachmentService.Upload(updatedEmployee.Image, "Images");
+                emp.ImageName = imgName;
+
+            }
+            _unitOfWork.EmployeeRepository.Update(emp);
             return _unitOfWork.SaveChanges();
         }
         public bool DeleteEmployee(int id)
@@ -68,6 +67,7 @@ namespace Demo.BusinessLogic.Services.Classes
                 return _unitOfWork.SaveChanges() > 0;
             }
         }
+
 
     }
 }

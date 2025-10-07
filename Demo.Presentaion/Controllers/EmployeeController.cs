@@ -47,7 +47,9 @@ namespace Demo.Presentaion.Controllers
                     PhoneNumber = employeemodel.PhoneNumber,
                     HiringDate = employeemodel.HiringDate,
                     EmployeeType = Enum.Parse<EmployeeType>(employeemodel.EmployeeType.ToString()),
-                    Gender = employeemodel.Gender
+                    Gender = employeemodel.Gender,
+                    Image = employeemodel.Image
+
 
                 });
 
@@ -129,6 +131,7 @@ namespace Demo.Presentaion.Controllers
                     HiringDate = employeeViewModel.HiringDate,
                     EmployeeType = Enum.Parse<EmployeeType>(employeeViewModel.EmployeeType.ToString()),
                     Gender = employeeViewModel.Gender,
+                    Image = employeeViewModel.Image
 
                 });
                 if(result>0)

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Demo.BusinessLogic.DTOS.EmployeeDTOS
 {
@@ -17,6 +18,8 @@ namespace Demo.BusinessLogic.DTOS.EmployeeDTOS
         [Display(Name = "Employee Type")]
         public string EmployeeType { get; set; }
         public string? Department { get; set; } //DepartmentName
+        [DisplayName("Image")]
+        public string? ImageName { get; set; }
     }
 
 }

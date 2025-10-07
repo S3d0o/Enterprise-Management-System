@@ -4,6 +4,13 @@
 }
 
 <h1 class="my-5 w-75">Employee Details</h1>
+<div class="d-flex ">
+    <img src="~/Attachments/Images/@(string.IsNullOrEmpty(Model.ImageName) ? "user.png" : Model.ImageName)"
+         class="rounded-circle border shadow-sm"
+         style="width:100px; height:100px; object-fit:cover;"
+         alt="User Avatar" />
+</div>
+<br />
 <ul class="nav nav-tabs" id="employeeTabs" role="tablist">
     <li class="nav-item" role="presentation">
         <a class="nav-link active" id="general-tab" data-bs-toggle="tab" href="#general" role="tab" aria-controls="general" aria-selected="true">General</a>
