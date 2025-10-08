@@ -6,39 +6,30 @@
     <title>@ViewData["Title"] - Demo.Presentaion</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link href="~/css/layout.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/Demo.Presentaion.styles.css" asp-append-version="true" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Demo.Presentaion</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Department" asp-action="Index">Departments</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Employee" asp-action="Index">Employees</a>
-                        </li>
-                        <li class="nav-item ms-auto">
-                            <a class="nav-link text-danger" asp-area="" asp-controller="Account" asp-action="SignOut">Sign Out</a>
-                        </li>
-                    </ul>
-                </div>
+    <header class="header">
+        <div class="menu" role="navigation">
+            <div class="menu-item">
+                <a asp-controller="Home" asp-action="Index">Home</a>
             </div>
-        </nav>
+            <div class="menu-item">
+                <a asp-controller="Department" asp-action="Index">Departments</a>
+            </div>
+            <div class="menu-item">
+                <a asp-controller="Employee" asp-action="Index">Employees</a>
+            </div>
+            <div class="menu-item">
+                <a asp-controller="User" asp-action="Index">Users</a>
+            </div>
+            <div class="menu-item">
+                <a asp-controller="Follow" asp-action="Index">Follow</a>
+            </div>
+            <div class="wee"></div>
+        </div>
     </header>
     <div class="container">
         <main role="main" class="pb-3">
@@ -47,14 +38,17 @@
     </div>
 
     <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - Demo.Presentaion - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        <div class="me">
+            <a href="https://github.com/S3d0o" target="_blank"><i class="fab fa-github"></i></a>
+            <a href="https://www.instagram.com/s3d.xn" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.linkedin.com/in/saad-mohamed-li" target="_blank"><i class="fab fa-linkedin-in"></i></a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/layout.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
-    @RenderSection("ValidationScripts",false)
+    @RenderSection("ValidationScripts", false)
 </body>
 </html>

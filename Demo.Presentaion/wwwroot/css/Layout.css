@@ -1,0 +1,86 @@
+﻿:root {
+    --primary-color: #002b75;
+    --text-color: #232323;
+}
+
+body {
+    position: relative;
+    background: #ece9e6; /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #fff, #ece9e6); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #fff, #ece9e6); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    font-family: 'Montserrat', sans-serif;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+}
+
+.header {
+    position: absolute;
+    top: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--primary-color);
+}
+
+.menu {
+    width: 100%;
+    max-width: 800px; /* Prevent menu from being too wide */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.menu-item {
+    position: relative;
+    cursor: pointer;
+}
+
+.wee {
+    height: 2px;
+    background-color: var(--primary-color);
+    position: absolute;
+    bottom: 0;
+    transition: left 0.75s ease, width 0.75s ease;
+    z-index: 10; /* Ensure wee is above other elements */
+}
+
+.menu-item a {
+    margin: 0;
+    padding: 0 1rem 1.5rem;
+    font-size: 1rem;
+    color: var(--text-color);
+    text-decoration: none;
+    display: inline-block;
+    transition: color 0.75s;
+}
+
+.menu-item:hover a {
+    color: var(--primary-color);
+}
+
+.current-menu-item a {
+    color: var(--primary-color);
+}
+
+.me {
+    position: absolute;
+    bottom: 5rem;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+    .me a {
+        display: inline-block;
+        padding: 0.25rem;
+        margin: 0 0.25rem;
+        color: var(--text-color);
+        font-size: 1.5rem;
+        transition: color 0.75s;
+    }
+
+        .me a:hover {
+            color: var(--primary-color);
+        }
