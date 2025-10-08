@@ -1,4 +1,5 @@
-﻿@model EmployeeViewModel
+﻿@using Demo.Presentaion.ViewModels.Employee
+@model EmployeeViewModel
 @inject IDepartmentService _departmentService
 @{
     var Departments = new SelectList(_departmentService.GetAllDepartments(), nameof(DepartmentDto.DeptId), nameof(DepartmentDto.DeptName));

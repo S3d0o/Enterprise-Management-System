@@ -1,11 +1,13 @@
 ﻿using Demo.BusinessLogic.DTOS.DepartmentDTOS;
 using Demo.BusinessLogic.Services.Interfaces;
-using Demo.Presentaion.ViewModels;
+using Demo.Presentaion.ViewModels.Department;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Demo.Presentaion.Controllers
 {
+    [Authorize]
     public class DepartmentController(IDepartmentService _departmentService,
         IWebHostEnvironment _env, ILogger<DepartmentController> _logger) : Controller
     {

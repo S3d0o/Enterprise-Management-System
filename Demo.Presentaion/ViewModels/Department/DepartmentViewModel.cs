@@ -1,4 +1,4 @@
-﻿namespace Demo.Presentaion.ViewModels
+﻿namespace Demo.Presentaion.ViewModels.Department
 {
     public class DepartmentViewModel
     {

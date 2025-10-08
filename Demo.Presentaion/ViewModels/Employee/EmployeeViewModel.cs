@@ -2,7 +2,7 @@
 using Demo.DataAccess.Models.Shared;
 using System.ComponentModel.DataAnnotations;
 
-namespace Demo.Presentaion.ViewModels
+namespace Demo.Presentaion.ViewModels.Employee
 {
     public class EmployeeViewModel
     {

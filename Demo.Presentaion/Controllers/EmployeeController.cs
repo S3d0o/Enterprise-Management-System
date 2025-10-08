@@ -3,12 +3,15 @@ using Demo.BusinessLogic.Services.Classes;
 using Demo.BusinessLogic.Services.Interfaces;
 using Demo.DataAccess.Models.EmployeeModule;
 using Demo.DataAccess.Models.Shared;
-using Demo.Presentaion.ViewModels;
+using Demo.Presentaion.ViewModels.Employee;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Numerics;
 
 namespace Demo.Presentaion.Controllers
 {
+    [Authorize]
+
     public class EmployeeController(IEmployeeService _employeeService, 
         IWebHostEnvironment _env, ILogger<EmployeeController> _logger) : Controller
     {
@@ -27,6 +30,7 @@ namespace Demo.Presentaion.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Create(EmployeeViewModel employeemodel)
         {
             if (!ModelState.IsValid)
@@ -111,6 +115,8 @@ namespace Demo.Presentaion.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
+
         public IActionResult Edit([FromRoute] int? id, EmployeeViewModel employeeViewModel)
         {
             if (!id.HasValue || id.Value != employeeViewModel.id) return BadRequest();
@@ -149,6 +155,7 @@ namespace Demo.Presentaion.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Delete(int id)
         {
             if(id==0) return BadRequest();

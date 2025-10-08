@@ -1,6 +1,7 @@
 using Demo.BusinessLogic.Mappings;
 using Demo.BusinessLogic.Services.Attachment_Service;
 using Demo.BusinessLogic.Services.Classes;
+using Demo.BusinessLogic.Services.EmailSender;
 using Demo.BusinessLogic.Services.Interfaces;
 using Demo.DataAccess.Data.Contexts;
 using Demo.DataAccess.Data.Repositories.Classes;
@@ -38,14 +39,17 @@ namespace Demo.Presentaion
                 options.UseLazyLoadingProxies(); // to make the navigation properties virtual and load it when u need it
             });
             builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
-            builder.Services.AddScoped<IDepartmentService,DepartmentService>();
+            builder.Services.AddScoped<IDepartmentService, DepartmentService>();
             builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
-            builder.Services.AddAutoMapper(cfg => { },typeof(MappingProfile).Assembly);
+            builder.Services.AddAutoMapper(cfg => { }, typeof(MappingProfile).Assembly);
             builder.Services.AddScoped<IEmployeeService, EmployeeService>();
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddScoped<IAttachmentService, AttachemntService>();
-            builder.Services.AddIdentity<ApplicationUser,IdentityRole>()
-                .AddEntityFrameworkStores<AppDbContext>();
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<AppDbContext>()
+                .AddDefaultTokenProviders(); 
+            builder.Services.AddScoped<IEmailSender, EmailSender>();
+         
             #endregion
 
             var app = builder.Build();
@@ -62,6 +66,9 @@ namespace Demo.Presentaion
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.MapControllerRoute(
                 name: "default",

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Demo.Presentaion.ViewModels
+namespace Demo.Presentaion.ViewModels.Identity
 {
     public class RegisterViewModel
     {
@@ -18,6 +18,7 @@ namespace Demo.Presentaion.ViewModels
         [MinLength(3, ErrorMessage = "name must contain at least 3 characters")]
         public string LastName { get; set; } = string.Empty;
         [DataType(DataType.EmailAddress)]
+        [Required]
         public string Email { get; set; } = string.Empty;
         [DataType(DataType.Password)]
         public string Password { get; set; } = string.Empty;
