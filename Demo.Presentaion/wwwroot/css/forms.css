@@ -1,0 +1,269 @@
+﻿.form-container {
+    max-width: 1400px; /* Increased from 1100px to 1400px for a wider form */
+    margin: 2rem auto;
+    padding: 2rem;
+    background: var(--background-light, rgba(255, 255, 255, 0.9));
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    box-shadow: var(--shadow, 0 4px 12px rgba(0, 0, 0, 0.1));
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); /* Increased minmax to allow wider columns */
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-label {
+    font-weight: 500;
+    color: var(--text-color, #1a1a1a);
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+    .form-control:focus {
+        border-color: var(--primary-color, #0052cc);
+        box-shadow: 0 0 5px rgba(0, 82, 204, 0.3);
+        outline: none;
+    }
+
+#imagePreview {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+    #imagePreview:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+.image-upload-label {
+    cursor: pointer;
+    margin-bottom: 0.5rem;
+}
+
+.radio-group {
+    display: flex;
+    gap: 1rem;
+}
+
+.form-check-input {
+    margin-right: 0.5rem;
+}
+
+.form-actions {
+    margin-top: 2rem;
+    padding: 1rem;
+    background: var(--background-light, rgba(255, 255, 255, 0.9));
+    backdrop-filter: blur(10px);
+    border-radius: 8px;
+    box-shadow: var(--shadow, 0 4px 12px rgba(0, 0, 0, 0.1));
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    width: 100%;
+    max-width: 1400px; /* Updated to match form-container width */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: transform 0.3s, background-color 0.3s;
+}
+
+.btn-primary {
+    background-color: var(--primary-color, #0052cc);
+    border: none;
+    color: white;
+}
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        background-color: #003d99;
+    }
+
+.btn-secondary {
+    background-color: #6c757d;
+    border: none;
+    color: white;
+}
+
+    .btn-secondary:hover {
+        transform: translateY(-2px);
+        background-color: #5a6268;
+    }
+
+.form-container {
+    max-width: 1400px;
+    margin: 2rem auto;
+    padding: 2.5rem; /* Slightly increased padding for a spacious feel */
+    background: #ffffff; /* Pure white for a clean, modern look */
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2); /* Stronger shadow for depth */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+    .form-container:hover {
+        transform: translateY(-4px); /* More pronounced lift on hover */
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+    }
+
+.form-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 1.75rem; /* Slightly larger gap for better spacing */
+    margin-bottom: 1.75rem;
+}
+
+.form-group {
+    margin-bottom: 1.25rem; /* Increased for better separation */
+}
+
+.form-label {
+    font-weight: 700; /* Bolder for a premium look */
+    color: #1a1a1a;
+    margin-bottom: 0.75rem;
+    display: block;
+    font-size: 1.1rem; /* Slightly larger for clarity */
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.85rem 1.25rem; /* More padding for comfort */
+    border: 1px solid #e5e5e5;
+    border-radius: 10px; /* Slightly larger radius for softer edges */
+    font-size: 1.05rem;
+    background: #fafafa; /* Light gray for subtle contrast */
+    transition: border-color 0.3s, box-shadow 0.3s, background-color 0.3s;
+}
+
+    .form-control:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 10px rgba(0, 123, 255, 0.3); /* Stronger focus effect */
+        background: #ffffff; /* White background on focus */
+        outline: none;
+    }
+
+#imagePreview {
+    width: 160px; /* Larger for better visibility */
+    height: 160px;
+    object-fit: cover;
+    border-radius: 12px; /* Consistent with form’s rounded aesthetic */
+    border: 2px solid #e5e5e5; /* Light border for definition */
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15); /* Enhanced shadow */
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+    #imagePreview:hover {
+        transform: scale(1.12); /* Slightly larger scale for hover */
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+    }
+
+.image-upload-label {
+    cursor: pointer;
+    margin-bottom: 0.75rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    font-size: 1.1rem;
+}
+
+.radio-group {
+    display: flex;
+    gap: 1.25rem; /* Increased for better spacing */
+}
+
+.form-check-input {
+    margin-right: 0.75rem;
+}
+
+.form-actions {
+    margin-top: 2.5rem;
+    padding: 1.25rem;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2); /* Matching form-container */
+    display: flex;
+    justify-content: flex-end;
+    gap: 1.25rem;
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.btn {
+    padding: 0.85rem 1.75rem; /* Larger buttons for modern look */
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 1.05rem;
+    transition: transform 0.3s, background-color 0.3s, box-shadow 0.3s;
+}
+
+.btn-success {
+    background-color: #28a745;
+    border: none;
+    color: white;
+}
+
+    .btn-success:hover {
+        transform: translateY(-3px);
+        background-color: #1e7e34;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+    }
+
+.btn-outline-dark {
+    border: 2px solid #343a40; /* Thicker border for emphasis */
+    color: #343a40;
+    background: transparent;
+}
+
+    .btn-outline-dark:hover {
+        transform: translateY(-3px);
+        background-color: #343a40;
+        color: white;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+    }
+
+.nav-tabs {
+    border-bottom: 2px solid #e5e5e5;
+}
+
+    .nav-tabs .nav-link {
+        font-weight: 700;
+        color: #1a1a1a;
+        border-radius: 10px 10px 0 0;
+        padding: 0.75rem 1.5rem;
+    }
+
+        .nav-tabs .nav-link.active {
+            background-color: #ffffff;
+            border: 2px solid #007bff;
+            border-bottom: none;
+            color: #007bff;
+        }
+
+.tab-pane {
+    background: #ffffff;
+    border: 1px solid #e5e5e5;
+    border-radius: 0 0 10px 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
