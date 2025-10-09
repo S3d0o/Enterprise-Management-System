@@ -22,9 +22,10 @@ namespace Demo.Presentaion.Controllers
             var employees = _employeeService.GetAllEmployees(EmployeeSearchName);
             return View(employees);
         }
-       
+
+     
         [HttpGet]
-        public IActionResult Create() // to avoid over-injecting in the constructor
+        public IActionResult Create() 
         {
             return View();
         }
@@ -177,7 +178,6 @@ namespace Demo.Presentaion.Controllers
                 }
             }
             return RedirectToAction(nameof(Delete), new { id });
-
         }
     }
 }
