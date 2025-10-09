@@ -1,0 +1,40 @@
+﻿@model IFormFile
+
+<div class="form-group mb-3 col-6">
+    <label class="form-label" asp-for="@Model">Profile Image</label>
+    <div class="d-flex flex-column align-items-start">
+        <label for="imageInput" style="cursor: pointer;" data-bs-toggle="tooltip" data-bs-placement="top" title="Click to change image">
+            <img id="imagePreview" src="~/Attachments/Images/user.png" alt="Profile Image" class="rounded-circle" style="width: 150px; height: 150px; object-fit: cover; transition: opacity 0.3s;" />
+        </label>
+        <input type="file" accept="image/*" class="visually-hidden" id="imageInput" asp-for="@Model" onchange="previewImage(event)" />
+        <span asp-validation-for="@Model" class="text-danger"></span>
+    </div>
+</div>
+<script>
+    // Initialize Bootstrap tooltips
+    document.addEventListener('DOMContentLoaded', function () {
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+    });
+
+    function previewImage(event) {
+        const input = event.target;
+        const preview = document.getElementById('imagePreview');
+
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                preview.src = e.target.result;
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
+<style>
+    label:hover img {
+        opacity: 0.8;
+    }
+</style>
+

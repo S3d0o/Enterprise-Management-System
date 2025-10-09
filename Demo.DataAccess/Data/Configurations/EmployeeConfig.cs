@@ -10,7 +10,7 @@ namespace Demo.DataAccess.Data.Configurations
         {
             builder.HasKey(e => e.Id);
             builder.Property(E => E.Name).HasColumnType("varchar(50)");
-            builder.Property(E => E.Address).HasColumnType("varchar(20)");
+            builder.Property(E => E.Address).HasColumnType("varchar(100)");
             builder.Property(E=>E.Salary).HasColumnType("decimal(10,2)");
             builder.Property(E => E.Gender).HasConversion(
                 (empGender) => empGender.ToString(),

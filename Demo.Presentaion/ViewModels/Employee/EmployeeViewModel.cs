@@ -16,6 +16,7 @@ namespace Demo.Presentaion.ViewModels.Employee
         public int? Age { get; set; }
         [RegularExpression(@"^\d{1,5}-[A-Za-z]+(?:\s[A-Za-z]+)*-[A-Za-z]+(?:\s[A-Za-z]+)*-[A-Za-z]+(?:\s[A-Za-z]+)*$",
            ErrorMessage = "Address must be in the format: Number-Street-City-Country (e.g., 123-Main Streat-New York-United States)")]
+        [MaxLength(100)]
         public string? Address { get; set; }
 
         [DataType(DataType.Currency)]
