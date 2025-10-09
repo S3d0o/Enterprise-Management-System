@@ -20,3 +20,63 @@ html {
 body {
   margin-bottom: 60px;
 }
+.modern-toast {
+    border: none;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    max-width: 350px;
+    animation: slideInRight 0.3s ease-out;
+}
+
+    .modern-toast .toast-header {
+        padding: 1rem;
+        background: linear-gradient(135deg, #28a745, #20c997);
+        color: white;
+    }
+
+        .modern-toast .toast-header.bg-danger {
+            background: linear-gradient(135deg, #dc3545, #e4606d);
+        }
+
+    .modern-toast .toast-body {
+        padding: 1rem;
+        border-top: 1px solid #dee2e6;
+    }
+
+    .modern-toast .toast-progress {
+        height: 3px;
+        background: rgba(255, 255, 255, 0.3);
+        transition: width 0 ease-out;
+    }
+
+    .modern-toast.show .toast-progress {
+        animation: progress 5s linear forwards;
+    }
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes progress {
+    from {
+        width: 100%;
+        background: rgba(255, 255, 255, 0.5);
+    }
+
+    to {
+        width: 0;
+    }
+}
+
+.toast-container .toast:not(:last-child) {
+    margin-bottom: 0.75rem;
+}

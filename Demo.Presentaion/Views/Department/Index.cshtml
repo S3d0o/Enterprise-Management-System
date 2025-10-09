@@ -3,34 +3,9 @@
 @model IEnumerable<DepartmentDto>
 @{
     ViewData["Title"] = "Index";
-    // DepartmentDto departmentDto = ViewData["message"] as DepartmentDto;
 }
 
-@* <div class="alert alert-success">
-@departmentDto.DeptName
-</div>
- *@@*ViewData => enforce type safety [Strongly Typed - Compiler] - better Performance (usually will use it)*@
-@*ViewBag => Cannot enforce Type safety [Weakely Typed - CLR]*@
-@* <div class="alert alert-danger">
-    @ViewBag.message.DeptName
-</div> *@
-@if(!string.IsNullOrEmpty(TempData["message"] as string))
-{
-
-<div aria-live="polite" aria-atomic="true" class="toast-container position-fixed p-3" style="bottom: 25px; right:25px; z-index: 100;">
-    <div class="toast fade show " role="alert" aria-live="assertive" aria-atomic="true" >
-        <div class="toast-header">
-            <strong class="me-auto text-success">Success!!</strong>
-            <small>Just now</small>
-            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-        </div>
-        <div class="toast-body">
-            @TempData["message"]
-        </div>
-    </div>
-</div>
-}
-
+<partial name="_ToastPartialView"></partial>
 
 <h1 class="my-3">Departmet</h1>
 <br />

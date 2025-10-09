@@ -18,7 +18,8 @@ namespace Demo.Presentaion.Controllers
         [HttpGet]
         public IActionResult Index(string? EmployeeSearchName)
         {
-            
+           
+
             var employees = _employeeService.GetAllEmployees(EmployeeSearchName);
             return View(employees);
         }
@@ -57,10 +58,17 @@ namespace Demo.Presentaion.Controllers
 
 
                 });
-
+                string message;
                 if (result > 0)
+                {
+                    message = $"Employee {employeemodel.Name} Created Successfully";
+                    TempData["message"] = message;
                     return RedirectToAction(nameof(Index));
+                }
+                else
+                    message = "Something went wrong, Employee cannot be created";
 
+                TempData["message"] = message;
                 ModelState.AddModelError(string.Empty, "The employee could not be created. Please try again.");
                 return View(employeemodel);
             }

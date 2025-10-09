@@ -14,12 +14,9 @@ namespace Demo.Presentaion.Controllers
         // Base URL/Controller/Action  
         public ActionResult Index()
         {
-            //ViewData["message"] = "Hello from ViewData";
-            //ViewBag.message = "Hello from ViewBag";
-            ViewData["message"] = new DepartmentDto() { DeptName = "TEST" }; // safe, casting is needed (checking in compile time)
-            ViewBag.message = new DepartmentDto() { DeptName = "test" };// unsafe, no need for casting (checking in run time)
+            
             var departments = _departmentService.GetAllDepartments();
-            return View(departments); // model here is departments(Data)
+            return View(departments); 
         }
 
         [HttpGet]
@@ -29,7 +26,7 @@ namespace Demo.Presentaion.Controllers
         }
 
         [HttpPost]
-        //[ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]
         public IActionResult Create(DepartmentViewModel departmentViewModel)
         {
             if (ModelState.IsValid) // server side validation 
@@ -45,7 +42,7 @@ namespace Demo.Presentaion.Controllers
                     });
                     string message;
                     if (result > 0)
-                        message ="Department Created Successfully";
+                        message =$"Department {departmentViewModel.Name} Created Successfully";
                     else
                         message = "Something went wrong, Department cannot be created";
                     TempData["message"] = message; // to show the message in the redirected view (Index)

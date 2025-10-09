@@ -1,0 +1,19 @@
+﻿@if (!string.IsNullOrEmpty(TempData["message"] as string))
+{
+    var toastType = TempData["toastType"]?.ToString() ?? "success";
+    var bgClass = toastType == "error" ? "bg-danger" : "bg-success";
+    var iconClass = toastType == "error" ? "bi-exclamation-triangle-fill" : "bi-check-circle-fill";
+    <div aria-live="polite" aria-atomic="true" class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1055;">
+        <div class="toast fade show modern-toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="true" data-bs-delay="5000">
+            <div class="toast-header d-flex align-items-center border-0 @bgClass text-white rounded-top">
+                <i class="bi @iconClass me-2"></i>
+                <strong class="me-auto">@(toastType == "error" ? "Error" : "Success")</strong>
+                <button type="button" class="btn-close btn-close-white ms-2" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body bg-light">
+                @TempData["message"]
+            </div>
+            <div class="toast-progress"></div>
+        </div>
+    </div>
+}
