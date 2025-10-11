@@ -5,14 +5,11 @@
 }
 
 <div class="row justify-content-center align-content-center mt-3">
-    <h1 class="col-8 my-4">Edit Department</h1>
+    <h1 class="my-5 w-50 mx-auto text-center fw-bold border-bottom pb-3">Edit @Model.Name Department</h1>
+
     <form method="post" asp-controller="Department" asp-action="Edit" class="col-8">
         @*Render Partial*@
         <partial name="PartialViews/_CreateEditPartialView" model="Model" ></partial>
-        <div class="mt-4 m-auto">
-            <input class="btn btn-success" type="submit" value="Edit" />
-            <a asp-controller="Department" asp-action="Index" class="btn btn-outline-dark">Back to list</a>
-        </div>
     </form>
 </div>
 @section ValidationScripts

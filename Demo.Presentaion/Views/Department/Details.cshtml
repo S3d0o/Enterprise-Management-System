@@ -2,9 +2,10 @@
 @{
     ViewData["Title"] = "Details";
 }
-<link rel="stylesheet" href="~/css/DepartmentDetails.css" />
+
 <div class="form-container">
-    <h1 class="my-4">Department @Model.Name Details</h1>
+    <h1 class="my-4 mx-auto text-center fw-bold border-bottom pb-3" style="width: 50%;">Details of @Model.Name Department</h1>
+
     <ul class="nav nav-tabs" id="departmentTabs" role="tablist">
         <li class="nav-item" role="presentation">
             <a class="nav-link active" id="general-tab" data-bs-toggle="tab" href="#general" role="tab" aria-controls="general" aria-selected="true">General</a>
@@ -13,9 +14,10 @@
             <a class="nav-link" id="administration-tab" data-bs-toggle="tab" href="#administration" role="tab" aria-controls="administration" aria-selected="false">Administration</a>
         </li>
     </ul>
+
     <div class="tab-content" id="myTabContent">
         <!-- General Tab Content -->
-        <div class="tab-pane fade show active p-4 border" id="general" role="tabpanel" aria-labelledby="general-tab">
+        <div class="tab-pane fade show active p-4" id="general" role="tabpanel" aria-labelledby="general-tab">
             <div class="form-row">
                 <div class="form-group col-6">
                     <label class="form-label" asp-for="Code"></label>
@@ -38,12 +40,11 @@
                     <input asp-for="CreatedAt" class="form-control" readonly />
                 </div>
             </div>
-            <!-- Added Image Preview Section -->
-            
-            </div>
+            <!-- Completed Image Preview Section -->
         </div>
+
         <!-- Administration Tab Content -->
-        <div class="tab-pane fade p-4 border" id="administration" role="tabpanel" aria-labelledby="administration-tab">
+        <div class="tab-pane fade p-4" id="administration" role="tabpanel" aria-labelledby="administration-tab">
             <div class="form-row">
                 <div class="form-group col-12">
                     <label class="form-label" asp-for="CreatedBy"></label>

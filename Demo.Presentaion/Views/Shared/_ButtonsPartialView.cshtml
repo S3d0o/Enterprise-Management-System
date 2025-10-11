@@ -1,11 +1,28 @@
-﻿@model int 
+﻿@model int
 
-<td><a class="btn btn-primary " asp-action="Details" asp-route-Id="@Model"><i class="fas fa-eye"></i></a></td>
 <td>
-    <a class="btn btn-success " asp-action="Edit" asp-route-Id="@Model">
+    <a class="btn btn-primary" asp-controller="@ViewData["Controller"]" asp-action="Details" asp-route-id="@Model">
+        <i class="fas fa-eye"></i>
+    </a>
+</td>
+
+<td>
+    <a class="btn btn-success" asp-controller="@ViewData["Controller"]" asp-action="Edit" asp-route-id="@Model">
         <i class="fas fa-edit"></i>
     </a>
 </td>
 
+<td>
+    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-@Model">
+        <i class="fas fa-trash"></i>
+    </button>
 
-
+    @{
+        ViewData["ModalId"] = Model.ToString(); // Unique modal ID per row
+        ViewData["EntityType"] = ViewData["EntityType"] ?? "Employee";
+        ViewData["Id"] = Model;
+        ViewData["Controller"] = ViewData["Controller"] ?? "Employee";
+        ViewData["Name"] = ViewData["Name"]?.ToString() ?? "Unknown";
+    }
+    <partial name="_DeleteModalPartial" model="@ViewData["Name"]" />
+</td>

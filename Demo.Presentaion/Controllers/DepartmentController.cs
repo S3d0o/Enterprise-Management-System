@@ -12,10 +12,10 @@ namespace Demo.Presentaion.Controllers
         IWebHostEnvironment _env, ILogger<DepartmentController> _logger) : Controller
     {
         // Base URL/Controller/Action  
-        public ActionResult Index()
+        public ActionResult Index(string? DepartmentSearchName)
         {
             
-            var departments = _departmentService.GetAllDepartments();
+            var departments = _departmentService.GetAllDepartments(DepartmentSearchName);
             return View(departments); 
         }
 

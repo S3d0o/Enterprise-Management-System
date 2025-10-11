@@ -5,7 +5,7 @@
 }
 
 <div class="row justify-content-center align-content-center mt-3">
-    <h1 class="col-8 my-4">Edit Employee</h1>
+    <h1 class="my-5 w-50 mx-auto text-center fw-bold border-bottom pb-3">Edit Employee</h1>
     <form method="post" asp-controller="Employee" asp-action="Edit" class="row col-8" enctype="multipart/form-data">
         <div asp-validation-summary="ModelOnly"></div>
        <partial name="PartialViews/_CreateEditPartialView" model="Model"></partial>

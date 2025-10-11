@@ -1,21 +1,40 @@
 ﻿@using Demo.Presentaion.ViewModels.Department
 @model DepartmentViewModel
-<div class="form-group mb-3">
-    <label class="form-label" asp-for="Code"></label>
-    <input asp-for="Code" class="form-control" />
-    <span asp-validation-for="Code" class="text-danger"></span>
-</div>
-<div class="form-group mb-3">
-    <label class="form-label" asp-for="Name"></label>
-    <input asp-for="Name" class="form-control" />
-    <span asp-validation-for="Name" class="text-danger"></span>
-</div>
-<div class="form-group mb-3">
-    <label class="form-label" asp-for="Description"></label>
-    <textarea class="form-control" asp-for="Description"></textarea>
-</div>
-<div class="form-group mb-3">
-    <label class="form-label" asp-for="CreatedAt"></label>
-    <input type="date" asp-for="CreatedAt" class="form-control"  />
-</div>
 
+<div class="form-container">
+    <form asp-action="Create" method="post">
+        <!-- Adjust action and method as needed -->
+        <div class="form-row">
+            <div class="form-group col-6">
+                <label class="form-label" asp-for="Code"></label>
+                <input asp-for="Code" class="form-control" />
+                <span asp-validation-for="Code" class="text-danger"></span>
+            </div>
+            <div class="form-group col-6">
+                <label class="form-label" asp-for="Name"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-12">
+                <label class="form-label" asp-for="Description"></label>
+                <textarea class="form-control" asp-for="Description"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-6">
+                <label class="form-label" asp-for="CreatedAt"></label>
+                <input type="date" asp-for="CreatedAt" class="form-control" />
+                <span asp-validation-for="CreatedAt" class="text-danger"></span>
+            </div>
+            <!-- Placeholder for symmetry (can be removed if not needed) -->
+            <div class="form-group col-6"></div>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Save</button>
+            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+        </div>
+    </form>
+</div>

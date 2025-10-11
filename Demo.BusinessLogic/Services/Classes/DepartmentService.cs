@@ -13,28 +13,25 @@ namespace Demo.BusinessLogic.Services.Classes
     // Dependency Injection, Primar constructors for classes
     {
         // GET ALL => Id,Code,Name,Description,DateOfCreation [Date part only] 
-        public IEnumerable<DepartmentDto> GetAllDepartments()
+        public IEnumerable<DepartmentDto> GetAllDepartments(string? searchName = null)
         {
-            // call the repo
-            var departments = _unitOfWork.DepartmentRepository.GetAll();
-            return departments.Select(d => d.ToDepartmentDto() /* Extension Method Mapping */
-            );
+            var deptRepo = _unitOfWork.DepartmentRepository;
+
+            var departments = deptRepo.GetAll();
+
+            if (!string.IsNullOrWhiteSpace(searchName))
+                departments = departments
+                    .Where(d => d.Name.Contains(searchName, StringComparison.OrdinalIgnoreCase));
+
+            return departments.Select(d => d.ToDepartmentDto());
         }
+
 
         // GET BY ID 
         public DepartmentDetailsDto GetDepartmentById(int id)
         {
             var dept = _unitOfWork.DepartmentRepository.GetById(id);
             return dept is null ? null : dept.ToDepartmentDetailsDto();// Extension Method Mapping
-
-            // Mapping Types =>
-            // AutoMapper => Package [Auto Mapper]
-            //,Extension Method Mapping // good in readability 
-            //, Constructor Mapping => bad in readability so will not use it
-            //, Manual Mapping
-
-            // Manual Mapping
-
         }
 
         // ADD
@@ -55,8 +52,8 @@ namespace Demo.BusinessLogic.Services.Classes
             var dept = _unitOfWork.DepartmentRepository.GetById(id);
             if (dept is null)
                 return false;
-             _unitOfWork.DepartmentRepository.Delete(dept);
-           return _unitOfWork.SaveChanges() > 0; // return true if the number of affected rows > 0
+            _unitOfWork.DepartmentRepository.Delete(dept);
+            return _unitOfWork.SaveChanges() > 0; // return true if the number of affected rows > 0
         }
     }
 }
