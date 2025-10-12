@@ -87,13 +87,13 @@
                         <td>@department.DateOfCreation</td>
                             <!--Partial view for 3 buttons-->
                             <!-- Delete Modal -->
-                            @{
-                                ViewData["Controller"] = "Department";
-                                ViewData["Name"] = department.DeptName;
-                                ViewData["EntityType"] = "Employee";
-                                ViewData["ModalId"] = department.DeptId.ToString();
-                            }
-                            <partial name="_ButtonsPartialView" model="department.DeptId" />
+                        <partial name="_ButtonsPartialView"
+                                 model="@department.DeptId"
+                                 view-data='new ViewDataDictionary(ViewData) {
+                                              { "EntityType", "Department" },
+                                              { "Controller", "Department" },
+                                              { "Name", department.DeptName }
+                                          }' />
                     </tr>
                 }
             </tbody>

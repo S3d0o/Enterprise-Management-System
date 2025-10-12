@@ -1,28 +1,39 @@
 ﻿@model int
 
+@{
+    var entityType = ViewData["EntityType"]?.ToString() ?? "Item";
+    var controller = ViewData["Controller"]?.ToString() ?? entityType;
+    var name = ViewData["Name"]?.ToString() ?? "Unknown";
+    var modalId = $"deleteModal-{Model}";
+
+    // ✅ Create ViewData once, overwrite keys safely
+    var deleteModalViewData = new ViewDataDictionary(ViewData);
+    deleteModalViewData["ModalId"] = Model.ToString();
+    deleteModalViewData["EntityType"] = entityType;
+    deleteModalViewData["Controller"] = controller;
+    deleteModalViewData["Id"] = Model;
+}
+
+<!-- DETAILS BUTTON -->
 <td>
-    <a class="btn btn-primary" asp-controller="@ViewData["Controller"]" asp-action="Details" asp-route-id="@Model">
+    <a class="btn btn-primary" asp-controller="@controller" asp-action="Details" asp-route-id="@Model" title="View Details">
         <i class="fas fa-eye"></i>
     </a>
 </td>
 
+<!-- EDIT BUTTON -->
 <td>
-    <a class="btn btn-success" asp-controller="@ViewData["Controller"]" asp-action="Edit" asp-route-id="@Model">
+    <a class="btn btn-success" asp-controller="@controller" asp-action="Edit" asp-route-id="@Model" title="Edit">
         <i class="fas fa-edit"></i>
     </a>
 </td>
 
+<!-- DELETE BUTTON + DELETE MODAL -->
 <td>
-    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-@Model">
+    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#@modalId" title="Delete">
         <i class="fas fa-trash"></i>
     </button>
 
-    @{
-        ViewData["ModalId"] = Model.ToString(); // Unique modal ID per row
-        ViewData["EntityType"] = ViewData["EntityType"] ?? "Employee";
-        ViewData["Id"] = Model;
-        ViewData["Controller"] = ViewData["Controller"] ?? "Employee";
-        ViewData["Name"] = ViewData["Name"]?.ToString() ?? "Unknown";
-    }
-    <partial name="_DeleteModalPartial" model="@ViewData["Name"]" />
+    <!-- ✅ Use the already created deleteModalViewData -->
+    <partial name="_DeleteModalPartial" model="@name" view-data="deleteModalViewData" />
 </td>

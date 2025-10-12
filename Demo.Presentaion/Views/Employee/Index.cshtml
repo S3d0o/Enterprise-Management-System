@@ -95,13 +95,13 @@
                         <td>@Html.DisplayFor(e => employee.Salary)</td>
                         <td><i class="fa @(employee.IsActive ? "fa-solid fa-circle-check text-success" : "fa-solid fa-circle-xmark text-danger")"></i></td>
                         <td>@employee.Gender</td>
-                        @{
-                            ViewData["Controller"] = "Employee";
-                            ViewData["Name"] = employee.Name;
-                            ViewData["EntityType"] = "Employee";
-                            ViewData["ModalId"] = employee.Id.ToString();
-                        }
-                        <partial name="_ButtonsPartialView" model="employee.Id" />
+                        <partial name="_ButtonsPartialView"
+                                 model="@employee.Id"
+                                 view-data='new ViewDataDictionary(ViewData) {
+                                              { "EntityType", "Employee" },
+                                              { "Controller", "Employee" },
+                                              { "Name", employee.Name }
+                                          }' />
 
                     </tr>
                 }
