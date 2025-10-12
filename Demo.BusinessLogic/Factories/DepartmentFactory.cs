@@ -13,7 +13,8 @@ namespace Demo.BusinessLogic.Factories
                 DeptCode = department.Code,
                 DeptName = department.Name,
                 DeptDescription = department.Description,
-                DateOfCreation = department.CreatedAt.HasValue ? DateOnly.FromDateTime(department.CreatedAt.Value) : default
+                DateOfCreation = department.CreatedAt.HasValue ? DateOnly.FromDateTime(department.CreatedAt.Value) : default,
+                MemberCount = department.Employees?.Where(e=>e.IsDeleted == false).Count() ?? 0
             };
         }
 

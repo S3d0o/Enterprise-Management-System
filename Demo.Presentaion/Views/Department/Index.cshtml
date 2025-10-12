@@ -71,6 +71,7 @@
                     <th>@Html.DisplayNameFor(d => d.DeptCode)</th>
                     <th>@Html.DisplayNameFor(d => d.DeptName)</th>
                     <th>@Html.DisplayNameFor(d => d.DeptDescription)</th>
+                    <th>@Html.DisplayNameFor(d => d.MemberCount)</th>
                     <th>@Html.DisplayNameFor(d => d.DateOfCreation)</th>
                     <th>Details</th>
                     <th>Edit</th>
@@ -84,9 +85,9 @@
                         <td>@department.DeptCode</td>
                         <td>@department.DeptName</td>
                         <td>@(department.DeptDescription ?? "No Desc")</td>
+                        <td>@department.MemberCount</td>
                         <td>@department.DateOfCreation</td>
                             <!--Partial view for 3 buttons-->
-                            <!-- Delete Modal -->
                         <partial name="_ButtonsPartialView"
                                  model="@department.DeptId"
                                  view-data='new ViewDataDictionary(ViewData) {

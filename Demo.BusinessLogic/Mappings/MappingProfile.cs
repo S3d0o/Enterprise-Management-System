@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using Demo.BusinessLogic.DTOS.DepartmentDTOS;
 using Demo.BusinessLogic.DTOS.EmployeeDTOS;
+using Demo.DataAccess.Models;
 using Demo.DataAccess.Models.EmployeeModule;
 
 namespace Demo.BusinessLogic.Mappings
@@ -22,6 +24,7 @@ namespace Demo.BusinessLogic.Mappings
                 .ForMember(d => d.HiringDate, o => o.MapFrom(s => s.HiringDate.ToDateTime(TimeOnly.MinValue)));
             CreateMap<UpdatedEmployeeDto, Employee>()
                 .ForMember(d => d.HiringDate, o => o.MapFrom(s => s.HiringDate.ToDateTime(TimeOnly.MinValue)));
+
 
         }
 

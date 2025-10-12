@@ -18,5 +18,8 @@ namespace Demo.BusinessLogic.DTOS.DepartmentDTOS
 
         [DisplayName("Date Of Creation")]
         public DateOnly DateOfCreation { get; set; }
+
+        [DisplayName("Number of members")]
+        public int MemberCount { get; set; }
     }
 }
