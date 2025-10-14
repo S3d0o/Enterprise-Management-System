@@ -18,8 +18,6 @@ namespace Demo.Presentaion.Controllers
         [HttpGet]
         public IActionResult Index(string? EmployeeSearchName)
         {
-           
-
             var employees = _employeeService.GetAllEmployees(EmployeeSearchName);
             return View(employees);
         }

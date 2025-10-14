@@ -49,7 +49,8 @@ namespace Demo.Presentaion
                 .AddEntityFrameworkStores<AppDbContext>()
                 .AddDefaultTokenProviders(); 
             builder.Services.AddScoped<IEmailSender, EmailSender>();
-         
+            builder.Services.AddScoped<IUserService, UserService>();
+
             #endregion
 
             var app = builder.Build();

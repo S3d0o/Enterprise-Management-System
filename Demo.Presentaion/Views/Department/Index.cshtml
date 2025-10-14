@@ -89,7 +89,7 @@
                         <td>@department.DateOfCreation</td>
                             <!--Partial view for 3 buttons-->
                         <partial name="_ButtonsPartialView"
-                                 model="@department.DeptId"
+                                 model="@department.DeptId.ToString()"
                                  view-data='new ViewDataDictionary(ViewData) {
                                               { "EntityType", "Department" },
                                               { "Controller", "Department" },

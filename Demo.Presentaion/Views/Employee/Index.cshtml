@@ -96,7 +96,7 @@
                         <td><i class="fa @(employee.IsActive ? "fa-solid fa-circle-check text-success" : "fa-solid fa-circle-xmark text-danger")"></i></td>
                         <td>@employee.Gender</td>
                         <partial name="_ButtonsPartialView"
-                                 model="@employee.Id"
+                                 model="@employee.Id.ToString()"
                                  view-data='new ViewDataDictionary(ViewData) {
                                               { "EntityType", "Employee" },
                                               { "Controller", "Employee" },

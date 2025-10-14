@@ -1,0 +1,53 @@
+﻿@model UserEditDto
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row justify-content-center align-content-center mt-3">
+    <h1 class="my-5 w-50 mx-auto text-center fw-bold border-bottom pb-3">Edit User</h1>
+    <form method="post" asp-controller="User" asp-action="Edit" class="row col-8" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly"></div>
+        <div class="form-container">
+            <form asp-action="Create" method="post">
+                <!-- Adjust action and method as needed -->
+                <div class="form-row">
+                    <div class="form-group col-6">
+                        <label class="form-label" asp-for="FirstName"></label>
+                        <input asp-for="FirstName" class="form-control" />
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-6">
+                        <label class="form-label" asp-for="LastName"></label>
+                        <input asp-for="LastName" class="form-control" />
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-12">
+                        <label class="form-label" asp-for="Email"></label>
+                        <textarea class="form-control" asp-for="Email"></textarea>
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-6">
+                      @* Roles *@
+                    </div>
+                    <!-- Placeholder for symmetry (can be removed if not needed) -->
+                    <div class="form-group col-6"></div>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+                </div>
+            </form>
+        </div>
+    </form>
+</div>
+@section ValidationScripts
+{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
+
