@@ -1,0 +1,95 @@
+﻿/* --- Custom Roles Page Styles --- */
+
+body {
+    background-color: #f7f9fb;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Title */
+h2 {
+    color: #212529;
+    letter-spacing: 0.5px;
+}
+
+/* Card */
+.card {
+    border-radius: 1rem;
+    background-color: #ffffff;
+}
+
+/* Table */
+.table {
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+    .table thead th {
+        font-weight: 600;
+        color: #495057;
+    }
+
+.table-hover tbody tr:hover {
+    background-color: #f1f3f5;
+    transition: 0.2s;
+}
+
+/* Buttons */
+.btn {
+    transition: all 0.2s ease-in-out;
+}
+
+    .btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+.btn-outline-danger:hover {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+.btn-outline-secondary:hover {
+    background-color: #6c757d;
+    color: #fff;
+}
+
+/* Search bar */
+#tableSearch {
+    border-top-left-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
+}
+
+.input-group .btn {
+    border-top-right-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+}
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+    .btn-lg {
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+    }
+}
+/* roles.css for edit view */
+
+.card {
+    border-radius: 20px !important;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+    .card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0px 10px 20px rgba(0,0,0,0.1);
+    }
+
+.form-control-lg {
+    font-size: 1.05rem;
+    padding: 0.75rem 1.25rem;
+    border: 1px solid #dee2e6;
+}
+
+    .form-control-lg:focus {
+        border-color: #4a69bd;
+        box-shadow: 0 0 0 0.2rem rgba(74,105,189,0.25);
+    }

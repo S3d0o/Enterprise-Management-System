@@ -1,0 +1,110 @@
+﻿@model IEnumerable<RoleDto>
+
+@{
+    ViewData["Title"] = "Roles";
+}
+
+<link rel="stylesheet" href="~/css/roles.css" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+<partial name="_ToastPartialView"></partial>
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold text-primary">Manage Roles</h2>
+        <a asp-action="Create" class="btn btn-primary shadow-sm">
+            <i class="bi bi-plus-lg"></i> Add New Role
+        </a>
+    </div>
+
+    <div class="card shadow-sm border-0 rounded-4">
+        <div class="card-body">
+            <!-- 🔍 Search -->
+            <div class="input-group mb-4">
+                <input type="text" id="roleSearch" class="form-control" placeholder="Search roles..." />
+                <span class="input-group-text"><i class="bi bi-search"></i></span>
+            </div>
+
+            <!-- 🧾 Table -->
+            <table class="table table-hover align-middle" id="rolesTable">
+                <thead class="table-light">
+                    <tr>
+                        <th>Role Name</th>
+                        <th>Description</th>
+                        <th class="text-center">Users Count</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (!Model.Any())
+                    {
+                        <tr>
+                            <td colspan="4" class="text-center">No roles found.</td>
+                        </tr>
+                    }
+                    else
+                    {
+                        @foreach (var role in Model)
+                        {
+                            <tr>
+                                <td>@role.Name</td>
+                                <td>@role.Description</td>
+                                <td class="text-center">@role.UserCount</td>
+                                <td class="text-center">
+                                    <!-- 🎯 Action buttons -->
+                                    <partial name="_RoleButtonsPartial" model="role" />
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- ✅ Move modals outside the table (prevents blinking) -->
+@foreach (var role in Model)
+{
+    <partial name="_DeleteModalPartial"
+             model="@role.Name"
+             view-data='new ViewDataDictionary(ViewData)
+                                    {
+                                        { "Id", role.Id },
+                                        { "EntityType", "Role" },
+                                        { "Controller", "Role" },
+                                        { "ModalId", role.Id }   // ensures consistent modal ID
+                                    }' />
+}
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // 🔍 Live search
+            const searchInput = document.getElementById('roleSearch');
+            const table = document.getElementById('rolesTable');
+            const rows = table.getElementsByTagName('tr');
+
+            searchInput.addEventListener('keyup', function () {
+                const filter = this.value.toLowerCase();
+                for (let i = 1; i < rows.length; i++) {
+                    const cells = rows[i].getElementsByTagName('td');
+                    const match = Array.from(cells).some(td => td.textContent.toLowerCase().includes(filter));
+                    rows[i].style.display = match ? '' : 'none';
+                }
+            });
+
+            // 🔔 Toast handling
+            @if (TempData["ToastMessage"] != null)
+            {
+                    <text>
+                        var toastEl = document.getElementById('toast');
+                        if (toastEl) {
+                            var toast = new bootstrap.Toast(toastEl);
+                            toastEl.querySelector('.toast-body').textContent = '@TempData["ToastMessage"]';
+                            toast.show();
+                        }
+                    </text>
+            }
+        });
+    </script>
+}
