@@ -3,7 +3,27 @@
     ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
+<style>
+    /* Position arrow inside the Select2 container */
+    .roles-multiselect + .select2-container--default .select2-selection--multiple {
+        position: relative;
+    }
+    .roles-multiselect + .select2-container--default .select2-selection__rendered::after {
+        content: "\f0d7"; /* Font Awesome down arrow */
+        font-family: "Font Awesome 6 Free";
+        font-weight: 900;
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        pointer-events: none;
+        color: #555;
+
+    }
+
+</style>
 <div class="row justify-content-center align-content-center mt-3">
     <h1 class="my-5 w-50 mx-auto text-center fw-bold border-bottom pb-3">Edit User</h1>
     <form method="post" asp-controller="User" asp-action="Edit" class="row col-8" enctype="multipart/form-data">
@@ -30,9 +50,11 @@
                         <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
                 </div>
-                <div class="form-row">
+                <div class="row">
                     <div class="form-group col-6">
-                      @* Roles *@
+                        <label class="form-label" asp-for="Roles"></label>
+                        <select asp-for="Roles" asp-items="ViewBag.AllRoles" multiple="multiple" class="form-control roles-multiselect"></select>
+                        <span asp-validation-for="Roles" class="text-danger"></span>
                     </div>
                     <!-- Placeholder for symmetry (can be removed if not needed) -->
                     <div class="form-group col-6"></div>
@@ -49,5 +71,14 @@
 {
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.roles-multiselect').select2({
+                placeholder: "Select roles",
+                allowClear: true,
+                width: '100%'
+            });
+        });
+    </script>
 }
 

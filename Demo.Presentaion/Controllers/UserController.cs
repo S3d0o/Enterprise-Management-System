@@ -6,6 +6,7 @@ using Demo.DataAccess.Models.IdentityModule;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 
 namespace Demo.Presentaion.Controllers
@@ -39,32 +40,57 @@ namespace Demo.Presentaion.Controllers
         #region Edit
 
         [HttpGet]
-        public IActionResult Edit(string? id)
+        public IActionResult Edit(string? id, [FromServices] RoleManager<ApplicationRole> _roleManager)
         {
             if (string.IsNullOrEmpty(id))
                 return BadRequest();
+
             var user = _userService.GetUserById(id);
             if (user == null) return NotFound();
-            var UserEdit = new UserEditDto
+
+            var userEdit = new UserEditDto
             {
+                Id = user.Id, // make sure ID is set
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Email = user.Email,
-                Roles = user.Roles
+                Roles = user.Roles.ToList()
             };
 
-            return View(UserEdit);
+            // Get all roles
+            var allRoles = _roleManager.Roles.Select(r => r.Name).ToList();
+
+            ViewBag.AllRoles = allRoles.Select(r => new SelectListItem
+            {
+                Text = r,
+                Value = r,
+                Selected = userEdit.Roles.Contains(r) // <-- fix here
+            }).ToList();
+
+            return View(userEdit);
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit([FromRoute] string id, UserEditDto dto)
+        public IActionResult Edit(string id, UserEditDto dto, [FromServices] RoleManager<ApplicationRole> roleManager)
         {
             if (string.IsNullOrEmpty(id))
                 return BadRequest();
 
             if (!ModelState.IsValid)
+            {
+                // Re-populate roles for dropdown in case of validation errors
+                var allRoles = roleManager.Roles.Select(r => r.Name).ToList();
+                ViewBag.AllRoles = allRoles.Select(r => new SelectListItem
+                {
+                    Text = r,
+                    Value = r,
+                    Selected = dto.Roles?.Contains(r) ?? false
+                }).ToList();
+
                 return View(dto);
+            }
 
             try
             {
@@ -84,8 +110,18 @@ namespace Demo.Presentaion.Controllers
                 ModelState.AddModelError(string.Empty, errorMsg);
             }
 
+            // Re-populate roles for dropdown if update failed
+            var roles = roleManager.Roles.Select(r => r.Name).ToList();
+            ViewBag.AllRoles = roles.Select(r => new SelectListItem
+            {
+                Text = r,
+                Value = r,
+                Selected = dto.Roles?.Contains(r) ?? false
+            }).ToList();
+
             return View(dto);
         }
+
 
         #endregion
 

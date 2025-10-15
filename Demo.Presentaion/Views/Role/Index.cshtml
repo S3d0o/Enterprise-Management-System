@@ -50,7 +50,7 @@
                                 <td>@role.Description</td>
                                 <td class="text-center">@role.UserCount</td>
                                 <td class="text-center">
-                                    <!-- 🎯 Action buttons -->
+                                    <!-- Action buttons -->
                                     <partial name="_RoleButtonsPartial" model="role" />
                                 </td>
                             </tr>
@@ -62,7 +62,7 @@
     </div>
 </div>
 
-<!-- ✅ Move modals outside the table (prevents blinking) -->
+<!-- Move modals outside the table (prevents blinking) -->
 @foreach (var role in Model)
 {
     <partial name="_DeleteModalPartial"
@@ -79,7 +79,7 @@
 @section Scripts {
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // 🔍 Live search
+            // Live search
             const searchInput = document.getElementById('roleSearch');
             const table = document.getElementById('rolesTable');
             const rows = table.getElementsByTagName('tr');
@@ -93,7 +93,7 @@
                 }
             });
 
-            // 🔔 Toast handling
+            // Toast handling
             @if (TempData["ToastMessage"] != null)
             {
                     <text>

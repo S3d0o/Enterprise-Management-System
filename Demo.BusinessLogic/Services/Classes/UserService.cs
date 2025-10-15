@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Identity;
 namespace Demo.BusinessLogic.Services.Classes
 {
     public class UserService(UserManager<ApplicationUser> _userManager) : IUserService
-    // no need for repository because we will use UserManager to manage users and roles ( avoid dublicates )
+    // no need for repository because we will use UserManager to manage users and roles ( avoid duplicates )
     {
         public IEnumerable<UserDto> GetAllUsers(string? searchByEmail = null)
         {
@@ -58,13 +58,23 @@ namespace Demo.BusinessLogic.Services.Classes
             user.Email = userEditDto.Email;
             var result = _userManager.UpdateAsync(user).Result;
             if (!result.Succeeded) return false;
-            //var currentRoles = _userManager.GetRolesAsync(user).Result;
-            //var rolesToAdd = userEditDto.Roles.Except(currentRoles);
-            //var rolesToRemove = currentRoles.Except(userEditDto.Roles);
-            //var addResult = _userManager.AddToRolesAsync(user, rolesToAdd).Result;
-            //if (!addResult.Succeeded) return false;
-            //var removeResult = _userManager.RemoveFromRolesAsync(user, rolesToRemove).Result;
-            //if (!removeResult.Succeeded) return false;
+            var currentRoles = _userManager.GetRolesAsync(user).Result;
+
+            var rolesToAdd = userEditDto.Roles.Except(currentRoles).ToList();
+            var rolesToRemove = currentRoles.Except(userEditDto.Roles).ToList();
+
+            if (rolesToAdd.Any())
+            {
+                var addResult = _userManager.AddToRolesAsync(user, rolesToAdd).Result;
+                if (!addResult.Succeeded) return false;
+            }
+
+            if (rolesToRemove.Any())
+            {
+                var removeResult = _userManager.RemoveFromRolesAsync(user, rolesToRemove).Result;
+                if (!removeResult.Succeeded) return false;
+            }
+
             return true;
         }
 
