@@ -69,13 +69,19 @@
                                     <span class="badge bg-info text-dark me-1">@role</span>
                                 }
                             </td>
-                            <partial name="_ButtonsPartialView"
-                                     model="@user.Id"
-                                     view-data='new ViewDataDictionary(ViewData) {
-                                                                      { "EntityType", "User" },
-                                                                      { "Controller", "User" },
-                                                                      { "Name", (user.FirstName + " " + user.LastName) }
-                                                                  }' />
+
+                            <!-- Actions Column -->
+                            <td>
+                                <div class="d-flex justify-content-center gap-2">
+                                    <partial name="_ButtonsPartialView"
+                                             model="@user.Id"
+                                             view-data='new ViewDataDictionary(ViewData) {
+                                                                       { "EntityType", "User" },
+                                                                       { "Controller", "User" },
+                                                                       { "Name", (user.FirstName + " " + user.LastName) }
+                                                                   }' />
+                        </div>
+                    </td>
                 </tr>
                                 }
                 </tbody>

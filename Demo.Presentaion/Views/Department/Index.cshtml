@@ -1,5 +1,6 @@
 ﻿@using Demo.BusinessLogic.DTOS.DepartmentDTOS
 @model IEnumerable<DepartmentDto>
+
 @{
     ViewData["Title"] = "Index";
 }
@@ -19,6 +20,7 @@
 }
 
 <h1 class="my-5 w-50 mx-auto text-center fw-bold border-bottom pb-3">All Departments</h1>
+
 <div class="container">
     <form class="row justify-content-center align-items-center" asp-action="Index" method="get">
         <!-- Search -->
@@ -39,7 +41,8 @@
                 </button>
             </div>
         </div>
-        <!-- Create -->
+
+        <!-- Create Button -->
         <div class="col-md-auto">
             <a class="btn btn-lg text-white px-4"
                style="background: linear-gradient(to right, #4a69bd, #1e3799);
@@ -65,41 +68,42 @@
 <div class="container mt-3" style="min-height: 500px;">
     @if (Model?.Any() ?? false)
     {
-        <table class="table table-striped table-hover shadow rounded-bottom">
-            <thead class="text-center">
-                <tr>
-                    <th>@Html.DisplayNameFor(d => d.DeptCode)</th>
-                    <th>@Html.DisplayNameFor(d => d.DeptName)</th>
-                    <th>@Html.DisplayNameFor(d => d.DeptDescription)</th>
-                    <th>@Html.DisplayNameFor(d => d.MemberCount)</th>
-                    <th>@Html.DisplayNameFor(d => d.DateOfCreation)</th>
-                    <th>Details</th>
-                    <th>Edit</th>
-                    <th>Delete</th>
-                </tr>
-            </thead>
-            <tbody class="text-center">
-                @foreach (var department in Model)
-                {
+        <div class="table-responsive shadow rounded">
+            <table class="table table-hover align-middle mb-0 text-center">
+                <thead class="table-dark">
                     <tr>
-                        <td>@department.DeptCode</td>
-                        <td>@department.DeptName</td>
-                        <td>@(department.DeptDescription ?? "No Desc")</td>
-                        <td>@department.MemberCount</td>
-                        <td>@department.DateOfCreation</td>
-                            <!--Partial view for 3 buttons-->
-                        <partial name="_ButtonsPartialView"
-                                 model="@department.DeptId.ToString()"
-                                 view-data='new ViewDataDictionary(ViewData) {
-                                              { "EntityType", "Department" },
-                                              { "Controller", "Department" },
-                                              { "Name", department.DeptName }
-                                          }' />
+                        <th>@Html.DisplayNameFor(d => d.DeptCode)</th>
+                        <th>@Html.DisplayNameFor(d => d.DeptName)</th>
+                        <th>@Html.DisplayNameFor(d => d.DeptDescription)</th>
+                        <th>@Html.DisplayNameFor(d => d.MemberCount)</th>
+                        <th>@Html.DisplayNameFor(d => d.DateOfCreation)</th>
+                        <th>Actions</th> <!-- Single Actions column -->
                     </tr>
-                }
-            </tbody>
-        </table>
-    }
+                </thead>
+                <tbody class="text-center">
+                    @foreach (var department in Model)
+                    {
+                        <tr>
+                            <td>@department.DeptCode</td>
+                            <td>@department.DeptName</td>
+                            <td>@(department.DeptDescription ?? "No Desc")</td>
+                            <td>@department.MemberCount</td>
+                            <td>@department.DateOfCreation.ToString("yyyy-MM-dd")</td>
+                            <td>
+                                    <partial name="_ButtonsPartialView"
+                                             model="@department.DeptId.ToString()"
+                                             view-data='new ViewDataDictionary(ViewData) {
+                                                              { "EntityType", "Department" },
+                                                              { "Controller", "Department" },
+                                                              { "Name", department.DeptName }
+                                                                        }' />
+                            </td>
+                         </tr>
+                    }
+                    </tbody>
+                </table>
+           </div>
+        }
     else
     {
         <div class="alert alert-info text-center">

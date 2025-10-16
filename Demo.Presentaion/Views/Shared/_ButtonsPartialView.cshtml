@@ -15,25 +15,19 @@
 }
 
 <!-- DETAILS BUTTON -->
-<td>
     <a class="btn btn-primary" asp-controller="@controller" asp-action="Details" asp-route-id="@Model" title="View Details">
         <i class="fas fa-eye"></i>
     </a>
-</td>
 
 <!-- EDIT BUTTON -->
-<td>
     <a class="btn btn-success" asp-controller="@controller" asp-action="Edit" asp-route-id="@Model" title="Edit">
         <i class="fas fa-edit"></i>
     </a>
-</td>
 
 <!-- DELETE BUTTON + DELETE MODAL -->
-<td>
     <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#@modalId" title="Delete">
         <i class="fas fa-trash"></i>
     </button>
 
     <!-- Use the already created deleteModalViewData -->
     <partial name="_DeleteModalPartial" model="@name" view-data="deleteModalViewData" />
-</td>
