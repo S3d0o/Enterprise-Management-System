@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Demo.Presentaion.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class RoleController(IRoleService _roleService, IWebHostEnvironment _env) : Controller
     {
         #region Index

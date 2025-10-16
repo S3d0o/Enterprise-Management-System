@@ -11,7 +11,7 @@ using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 
 namespace Demo.Presentaion.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class UserController(IUserService _userService, IWebHostEnvironment _env) : Controller
     {
         #region Index

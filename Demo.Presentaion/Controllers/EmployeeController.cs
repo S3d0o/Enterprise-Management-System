@@ -11,7 +11,7 @@ using System.Numerics;
 namespace Demo.Presentaion.Controllers
 {
     [Authorize]
-    public class EmployeeController(IEmployeeService _employeeService, 
+    public class EmployeeController(IEmployeeService _employeeService,
         IWebHostEnvironment _env, ILogger<EmployeeController> _logger) : Controller
     {
         [HttpGet]
@@ -21,9 +21,9 @@ namespace Demo.Presentaion.Controllers
             return View(employees);
         }
 
-     
+
         [HttpGet]
-        public IActionResult Create() 
+        public IActionResult Create()
         {
             return View();
         }
@@ -88,18 +88,18 @@ namespace Demo.Presentaion.Controllers
         [HttpGet]
         public IActionResult Details(int? id)
         {
-            if(!id.HasValue) return BadRequest();
+            if (!id.HasValue) return BadRequest();
             var emp = _employeeService.GetEmployeeById(id!.Value);
-            if(emp is null) return NotFound();
+            if (emp is null) return NotFound();
             return View(emp);
         }
 
         [HttpGet]
         public IActionResult Edit(int? id)
         {
-            if(!id.HasValue) return BadRequest();
+            if (!id.HasValue) return BadRequest();
             var emp = _employeeService.GetEmployeeById(id!.Value);
-            if(emp is null) return NotFound();
+            if (emp is null) return NotFound();
             var employeeViewModel = new EmployeeViewModel() // DepartmentId
             {
                 id = emp!.Id,
@@ -113,7 +113,8 @@ namespace Demo.Presentaion.Controllers
                 HiringDate = emp.HiringDate,
                 EmployeeType = Enum.Parse<EmployeeType>(emp.EmployeeType),
                 Gender = Enum.Parse<Gender>(emp.Gender),
-                DepartmentId = emp.DepartmentId
+                DepartmentId = emp.DepartmentId,
+                ImageName = emp.ImageName
 
 
             };
@@ -126,7 +127,7 @@ namespace Demo.Presentaion.Controllers
         public IActionResult Edit([FromRoute] int? id, EmployeeViewModel employeeViewModel)
         {
             if (!id.HasValue || id.Value != employeeViewModel.id) return BadRequest();
-            if(!ModelState.IsValid) return View(employeeViewModel);
+            if (!ModelState.IsValid) return View(employeeViewModel);
             try
             {
                 int result = _employeeService.UpdateEmployee(new UpdatedEmployeeDto()
@@ -146,13 +147,13 @@ namespace Demo.Presentaion.Controllers
                     Image = employeeViewModel.Image
 
                 });
-                if(result>0)
+                if (result > 0)
                     return RedirectToAction(nameof(Index));
                 ModelState.AddModelError(string.Empty, "The employee could not be updated. Please try again.");
             }
             catch (Exception ex)
-            { 
-                if(_env.IsDevelopment())
+            {
+                if (_env.IsDevelopment())
                     _logger.LogError(ex, "Error while updating employee");
                 else
                     ModelState.AddModelError(string.Empty, ex.Message);
@@ -164,7 +165,7 @@ namespace Demo.Presentaion.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Delete(int id)
         {
-            if(id==0) return BadRequest();
+            if (id == 0) return BadRequest();
             try
             {
                 bool IsDeleted = _employeeService.DeleteEmployee(id);

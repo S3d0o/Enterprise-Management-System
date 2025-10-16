@@ -80,3 +80,32 @@ body {
 .toast-container .toast:not(:last-child) {
     margin-bottom: 0.75rem;
 }
+
+/* ===== Sign Out Modal Styles ===== */
+.signout-modal {
+    animation: zoomIn 0.25s ease-in-out;
+    border-radius: 1rem !important;
+    overflow: hidden;
+}
+
+.signout-header {
+    background: linear-gradient(45deg, #dc3545, #b02a37);
+    color: white;
+}
+
+    .signout-header .btn-close {
+        filter: invert(1);
+    }
+
+/* Modal animation */
+@keyframes zoomIn {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}

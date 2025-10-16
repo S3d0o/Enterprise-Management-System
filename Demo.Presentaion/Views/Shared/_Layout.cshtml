@@ -1,31 +1,37 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<Demo.DataAccess.Models.IdentityModule.ApplicationUser> SignInManager
+@inject UserManager<Demo.DataAccess.Models.IdentityModule.ApplicationUser> UserManager
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Demo.Presentaion</title>
-    <!-- Google Fonts for Inter -->
+    <title>@ViewData["Title"] - Demo.Presentation</title>
+
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    <!-- Bootstrap CSS -->
+    <!-- Bootstrap -->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <!-- Bootstrap Icons -->
+    <!-- Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" />
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- Custom CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <!-- Custom -->
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link href="~/css/forms.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/forms.css" />
     <link rel="stylesheet" href="~/css/layout.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/Demo.Presentaion.styles.css" asp-append-version="true" />
-    <!-- JS -->
+    <link rel="stylesheet" href="~/Demo.Presentation.styles.css" asp-append-version="true" />
+
+    <!-- jQuery & Bootstrap JS -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/js/main.js" asp-append-version="true"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Style2 css & js -->
+    <script src="~/js/main.js" asp-append-version="true"></script>
+
+    <!-- Select2 -->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
 </head>
+
 <body>
     <header class="header">
         <div class="menu" role="navigation">
@@ -38,23 +44,32 @@
             <div class="menu-item">
                 <a asp-controller="Employee" asp-action="Index">Employees</a>
             </div>
-            <div class="menu-item">
-                <a asp-controller="User" asp-action="Index">Users</a>
-            </div>
-            <div class="menu-item">
-                <a asp-controller="Role" asp-action="Index">Role</a>
-            </div>
+
+            @if (User.IsInRole("Admin"))
+            {
+                <div class="menu-item">
+                    <a asp-controller="User" asp-action="Index">Users</a>
+                </div>
+                <div class="menu-item">
+                    <a asp-controller="Role" asp-action="Index">Roles</a>
+                </div>
+            }
+
             <div class="menu-item signout-item">
-                <a asp-controller="Account" asp-action="Logout"><i class="fas fa-sign-out-alt"></i> Sign Out</a>
+                <a href="#" class="signout-link" data-bs-toggle="modal" data-bs-target="#signOutModal">
+                    <i class="fas fa-sign-out-alt"></i> Sign Out
+                </a>
             </div>
             <div class="wee"></div>
         </div>
     </header>
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
+
     <footer class="border-top footer text-muted">
         <div class="me">
             &copy; @DateTime.UtcNow.Year — <strong>Demo Management System</strong>
@@ -63,10 +78,13 @@
             <a href="https://www.linkedin.com/in/saad-mohamed-li" target="_blank"><i class="fab fa-linkedin-in"></i></a>
         </div>
     </footer>
+
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/layout.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
     @RenderSection("ValidationScripts", false)
+    <partial name="_SignOutModal" />
+
 </body>
 </html>

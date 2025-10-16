@@ -12,7 +12,12 @@
                 <label class="form-label" asp-for="Image">Profile Image</label>
                 <div class="d-flex flex-column align-items-start">
                     <label for="imageInput" class="image-upload-label" data-bs-toggle="tooltip" data-bs-placement="top" title="Click to change image">
-                        <img id="imagePreview" src="~/Attachments/Images/user.png" alt="Profile Image" class="rounded-circle" />
+                        <img id="imagePreview"
+                             src="@(Model.ImageName != null
+                                         ? Url.Content($"~/Attachments/Images/{Model.ImageName}")
+                                         : Url.Content("~/Attachments/Images/user.png"))"
+                             alt="Profile Image"
+                             class="rounded-circle" />
                     </label>
                     <input type="file" accept="image/*" class="visually-hidden" id="imageInput" asp-for="Image" onchange="previewImage(event)" />
                     <span asp-validation-for="Image" class="text-danger"></span>

@@ -4,6 +4,7 @@ namespace Demo.BusinessLogic.Services.Attachment_Service
 {
     public class AttachemntService : IAttachmentService
     {
+
         List<string> AllowedExtensions = [".jpg", ".png", ".jpeg", ".gif", ".pdf", ".doc", ".docx"];
 
         #region AttachemntService Steps

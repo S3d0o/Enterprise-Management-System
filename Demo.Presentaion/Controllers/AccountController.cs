@@ -184,5 +184,23 @@ namespace Demo.Presentaion.Controllers
 
 
         #endregion
+
+        #region Access Denied
+        [AllowAnonymous]
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
+        #endregion
+
+        #region SignOut
+        [HttpPost]
+        public IActionResult Logout()
+        {
+            _signInManager.SignOutAsync().GetAwaiter().GetResult();
+            return RedirectToAction("Login");
+        }
+
+        #endregion
     }
 }

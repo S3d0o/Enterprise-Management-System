@@ -4,7 +4,14 @@
 }
 
 <div class="container py-5">
-
+    @if (User.IsInRole("Admin"))
+    {
+        <div id="adminBanner"
+             class="admin-banner position-fixed top-0 start-0 mt-5 ms-3 shadow-sm p-3 bg-light rounded-3 border border-warning d-flex align-items-center">
+            <i class="bi bi-shield-check text-warning me-2 fs-5"></i>
+            <span class="fw-semibold">Welcome, Admin! You're in control 👑</span>
+        </div>
+    }
     <!-- Header -->
     <div class="text-center mb-5">
         <h1 class="fw-bold display-5 text-primary">Demo Management System</h1>
@@ -128,4 +135,51 @@
         background: transparent;
         border: none;
     }
+
+    .admin-banner {
+        z-index: 1050;
+        font-size: 0.95rem;
+        animation: fadeSlideIn 0.7s ease-out;
+    }
+
+    @@keyframes fadeSlideIn {
+        from
+
+    {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+        @@keyframes fadeOut {
+            from
+
+    {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+
+    }
+    }
 </style>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const banner = document.getElementById("adminBanner");
+        if (banner) {
+            setTimeout(() => {
+                banner.style.animation = "fadeOut 0.6s ease-in forwards";
+                setTimeout(() => banner.remove(), 600); // remove after fade
+            }, 8000); // disappear after 8 seconds
+        }
+    });
+</script>
+
+
