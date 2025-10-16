@@ -1,4 +1,5 @@
-﻿using Demo.BusinessLogic.DTOS.EmployeeDTOS;
+﻿using Demo.BusinessLogic.DTOS.DepartmentDTOS;
+using Demo.BusinessLogic.DTOS.EmployeeDTOS;
 using Demo.BusinessLogic.Services.Classes;
 using Demo.BusinessLogic.Services.Interfaces;
 using Demo.DataAccess.Models.EmployeeModule;
@@ -6,6 +7,7 @@ using Demo.DataAccess.Models.Shared;
 using Demo.Presentaion.ViewModels.Employee;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Numerics;
 
 namespace Demo.Presentaion.Controllers
@@ -23,22 +25,34 @@ namespace Demo.Presentaion.Controllers
 
 
         [HttpGet]
-        public IActionResult Create()
+        public IActionResult Create([FromServices] IDepartmentService _departmentService)
         {
-            return View();
+            var departments = _departmentService.GetAllDepartments();
+
+            var model = new EmployeeViewModel
+            {
+                DepartmentList = new SelectList(departments, nameof(DepartmentDto.DeptId), nameof(DepartmentDto.DeptName))
+            };
+
+            return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(EmployeeViewModel employeemodel)
+        public IActionResult Create(EmployeeViewModel employeemodel, [FromServices] IDepartmentService _departmentService)
         {
+            // Check model validation first
             if (!ModelState.IsValid)
+            {
+                // Refill dropdowns or any required data
+                employeemodel.DepartmentList = new SelectList(_departmentService.GetAllDepartments(), "Id", "Name");
                 return View(employeemodel);
+            }
+
             try
             {
-
-                int result = _employeeService.CreateEmployee(new CreateEmployeeDto()
-
+                // Create DTO from ViewModel
+                var employeeDto = new CreateEmployeeDto
                 {
                     Name = employeemodel.Name,
                     Age = employeemodel.Age,
@@ -52,38 +66,44 @@ namespace Demo.Presentaion.Controllers
                     EmployeeType = Enum.Parse<EmployeeType>(employeemodel.EmployeeType.ToString()),
                     Gender = employeemodel.Gender,
                     Image = employeemodel.Image
+                };
 
+                // Call service to create employee
+                int result = _employeeService.CreateEmployee(employeeDto);
 
-                });
-                string message;
+                // Handle result
                 if (result > 0)
                 {
-                    message = $"Employee {employeemodel.Name} Created Successfully";
-                    TempData["message"] = message;
+                    TempData["message"] = $"🎉 Employee '{employeemodel.Name}' was created successfully!";
                     return RedirectToAction(nameof(Index));
                 }
                 else
-                    message = "Something went wrong, Employee cannot be created";
-
-                TempData["message"] = message;
-                ModelState.AddModelError(string.Empty, "The employee could not be created. Please try again.");
-                return View(employeemodel);
+                {
+                    TempData["message"] = "⚠️ Something went wrong. Employee could not be created.";
+                    ModelState.AddModelError(string.Empty, "Employee creation failed. Please try again.");
+                }
             }
             catch (Exception ex)
             {
+                // Log the full exception details
                 _logger.LogError(ex, "Error while creating employee");
 
+                // Handle differently for Development and Production
                 if (_env.IsDevelopment())
                 {
-                    // Show detailed error message in Dev
-                    ModelState.AddModelError(string.Empty, ex.Message);
-                    return View(employeemodel);
+                    ModelState.AddModelError(string.Empty, $"Error: {ex.Message}");
                 }
-
-                // Show generic error in Prod
-                return View("ErrorView");
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "An unexpected error occurred. Please contact support.");
+                }
             }
+
+            // If we reach here, something failed → reload dropdown and return same view
+            employeemodel.DepartmentList = new SelectList(_departmentService.GetAllDepartments(), "Id", "Name");
+            return View(employeemodel);
         }
+
 
         [HttpGet]
         public IActionResult Details(int? id)

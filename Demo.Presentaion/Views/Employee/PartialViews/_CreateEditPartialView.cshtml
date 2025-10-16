@@ -1,9 +1,6 @@
 ﻿@using Demo.Presentaion.ViewModels.Employee
 @model EmployeeViewModel
-@inject IDepartmentService _departmentService
-@{
-    var Departments = new SelectList(_departmentService.GetAllDepartments(), nameof(DepartmentDto.DeptId), nameof(DepartmentDto.DeptName));
-}
+
 
 <div class="form-container">
     <form asp-action="Create" method="post" enctype="multipart/form-data">
@@ -68,7 +65,7 @@
         <div class="form-row">
             <div class="form-group">
                 <label class="form-label" asp-for="DepartmentId"></label>
-                <select asp-for="DepartmentId" asp-items="Departments" class="form-control">
+                <select asp-for="DepartmentId" asp-items="Model.DepartmentList" class="form-control">
                     <option value="@string.Empty">Select Department</option>
                 </select>
                 <span asp-validation-for="DepartmentId" class="text-danger"></span>
@@ -111,7 +108,7 @@
     document.addEventListener('DOMContentLoaded', function () {
         var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
         var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-            return new bootstrap.Tooltip(tooltipTriggerEl);
+            return new  bootstrap.Tooltip(tooltipTriggerEl);
         });
     });
 

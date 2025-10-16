@@ -1,5 +1,6 @@
 ﻿using Demo.DataAccess.Models.EmployeeModule;
 using Demo.DataAccess.Models.Shared;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
 
 namespace Demo.Presentaion.ViewModels.Employee
@@ -42,6 +43,8 @@ namespace Demo.Presentaion.ViewModels.Employee
         public int? DepartmentId { get; set; } // Foriegn Key
         public IFormFile? Image { get; set; }
         public string? ImageName { get; set; }
+        public SelectList? DepartmentList { get; set; }
+
 
     }
 }
