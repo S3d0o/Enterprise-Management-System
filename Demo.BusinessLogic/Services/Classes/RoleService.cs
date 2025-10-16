@@ -62,7 +62,7 @@ namespace Demo.BusinessLogic.Services.Classes
             var role = _roleManager.FindByIdAsync(id).Result;
             if (role == null) return false;
             var usersInRole = _userManager.GetUsersInRoleAsync(role.Name!).Result;
-            if (usersInRole.Any()) return false; // Prevent deletion if users are assigned to the role
+            //if (usersInRole.Any()) return false; //should be enhance with the (service result pattern)  Prevent deletion if users are assigned to the role 
             var result = _roleManager.DeleteAsync(role).Result;
             return result.Succeeded;
         }
