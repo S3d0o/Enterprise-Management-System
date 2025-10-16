@@ -65,8 +65,8 @@
         <div class="form-row">
             <div class="form-group">
                 <label class="form-label" asp-for="DepartmentId"></label>
-                <select asp-for="DepartmentId" asp-items="Model.DepartmentList" class="form-control">
-                    <option value="@string.Empty">Select Department</option>
+                <select asp-for="DepartmentId" asp-items="Model.DepartmentList ?? new SelectList(Enumerable.Empty<SelectListItem>())" class="form-control">
+                    <option value="">Select Department</option>
                 </select>
                 <span asp-validation-for="DepartmentId" class="text-danger"></span>
             </div>

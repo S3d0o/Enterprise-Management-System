@@ -31,7 +31,9 @@ namespace Demo.Presentaion.Controllers
 
             var model = new EmployeeViewModel
             {
-                DepartmentList = new SelectList(departments, nameof(DepartmentDto.DeptId), nameof(DepartmentDto.DeptName))
+                DepartmentList = new SelectList(_departmentService.GetAllDepartments(),
+                                        nameof(DepartmentDto.DeptId),
+                                        nameof(DepartmentDto.DeptName))
             };
 
             return View(model);
@@ -45,7 +47,9 @@ namespace Demo.Presentaion.Controllers
             if (!ModelState.IsValid)
             {
                 // Refill dropdowns or any required data
-                employeemodel.DepartmentList = new SelectList(_departmentService.GetAllDepartments(), "Id", "Name");
+                employeemodel.DepartmentList = new SelectList(_departmentService.GetAllDepartments(),
+                                              nameof(DepartmentDto.DeptId),
+                                              nameof(DepartmentDto.DeptName));
                 return View(employeemodel);
             }
 
@@ -65,7 +69,8 @@ namespace Demo.Presentaion.Controllers
                     HiringDate = employeemodel.HiringDate,
                     EmployeeType = Enum.Parse<EmployeeType>(employeemodel.EmployeeType.ToString()),
                     Gender = employeemodel.Gender,
-                    Image = employeemodel.Image
+                    Image = employeemodel.Image,
+
                 };
 
                 // Call service to create employee
@@ -100,7 +105,9 @@ namespace Demo.Presentaion.Controllers
             }
 
             // If we reach here, something failed → reload dropdown and return same view
-            employeemodel.DepartmentList = new SelectList(_departmentService.GetAllDepartments(), "Id", "Name");
+            employeemodel.DepartmentList = new SelectList(_departmentService.GetAllDepartments(),
+                                          nameof(DepartmentDto.DeptId),
+                                          nameof(DepartmentDto.DeptName));
             return View(employeemodel);
         }
 
@@ -115,7 +122,7 @@ namespace Demo.Presentaion.Controllers
         }
 
         [HttpGet]
-        public IActionResult Edit(int? id)
+        public IActionResult Edit(int? id, [FromServices] IDepartmentService _departmentService)
         {
             if (!id.HasValue) return BadRequest();
             var emp = _employeeService.GetEmployeeById(id!.Value);
@@ -134,7 +141,12 @@ namespace Demo.Presentaion.Controllers
                 EmployeeType = Enum.Parse<EmployeeType>(emp.EmployeeType),
                 Gender = Enum.Parse<Gender>(emp.Gender),
                 DepartmentId = emp.DepartmentId,
-                ImageName = emp.ImageName
+                ImageName = emp.ImageName,
+                DepartmentList = new SelectList(
+            _departmentService.GetAllDepartments(),
+            nameof(DepartmentDto.DeptId),
+            nameof(DepartmentDto.DeptName),
+            emp.DepartmentId)// <-- selected department
 
 
             };
@@ -143,7 +155,6 @@ namespace Demo.Presentaion.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-
         public IActionResult Edit([FromRoute] int? id, EmployeeViewModel employeeViewModel)
         {
             if (!id.HasValue || id.Value != employeeViewModel.id) return BadRequest();
