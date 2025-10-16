@@ -8,8 +8,10 @@ using Demo.DataAccess.Data.Repositories.Classes;
 using Demo.DataAccess.Data.Repositories.Interfaces;
 using Demo.DataAccess.Data.Repositories.Repositories;
 using Demo.DataAccess.Models.IdentityModule;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -25,7 +27,14 @@ namespace Demo.Presentaion
 
             // Add services to the container.
             builder.Services.AddControllersWithViews(options =>
-            options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute())); // or u can add an attribute for all the post actions 
+            {
+                //var policy = new AuthorizationPolicyBuilder()
+                //     .RequireAuthenticatedUser()
+                //     .Build();
+                //options.Filters.Add(new AuthorizeFilter(policy));
+                options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+                }); // or u can add an attribute for all the post actions 
+
 
             //Life Times [object] => AddTransient, AddScoped, AddSingleton
             //AddDbContext => Scoped for DbContext

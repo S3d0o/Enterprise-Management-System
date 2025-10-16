@@ -2,6 +2,7 @@
 using Demo.DataAccess.Models.IdentityModule;
 using Demo.DataAccess.Models.Shared;
 using Demo.Presentaion.ViewModels.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.DotNet.Scaffolding.Shared.Project;

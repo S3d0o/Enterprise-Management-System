@@ -1,10 +1,12 @@
 ﻿using Demo.BusinessLogic.DTOS.RoleDTOS;
 using Demo.BusinessLogic.Enums;
 using Demo.BusinessLogic.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Demo.Presentaion.Controllers
 {
+    [Authorize]
     public class RoleController(IRoleService _roleService, IWebHostEnvironment _env) : Controller
     {
         #region Index

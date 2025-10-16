@@ -14,36 +14,34 @@
 
                 <div class="signin-form">
                     <h2 class="form-title">@ViewData["Title"]</h2>
-                    <form method="POST" class="register-form" id="login-form" asp-action="ForgetPassword">
+                    <form method="POST" class="register-form" id="login-form" asp-action="Login">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
                         <div class="form-group">
                             <label asp-for="Email"><i class="zmdi zmdi-email"></i></label>
-                            <input asp-for="Email" placeholder =" Your Email" />
+                            <input asp-for="Email" placeholder="Your Email" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
                         </div>
+
                         <div class="form-group">
                             <label asp-for="Password"><i class="zmdi zmdi-lock"></i></label>
                             <input asp-for="Password" placeholder="Password" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
                         </div>
+
                         <div class="form-group">
                             <input asp-for="RememberMe" />
                             <label asp-for="RememberMe" class="label-agree-term"><span><span></span></span>Remember me</label>
                         </div>
+
                         <div class="form-group">
                             <a asp-action="ForgetPassword">Forget password?</a>
                         </div>
 
                         <div class="form-group form-button">
-                            <input type="submit" name="signin" id="signin" class="form-submit" value="Log in" asp-action="Login" />
+                            <input type="submit" name="signin" id="signin" class="form-submit" value="Log in" />
                         </div>
                     </form>
-                    <div class="social-login">
-                        <span class="social-label">Or login with</span>
-                        <ul class="socials">
-                            <li><a href="#"><i class="display-flex-center zmdi zmdi-facebook"></i></a></li>
-                            <li><a href="#"><i class="display-flex-center zmdi zmdi-twitter"></i></a></li>
-                            <li><a href="#"><i class="display-flex-center zmdi zmdi-google"></i></a></li>
-                        </ul>
-                    </div>
                 </div>
             </div>
         </div>

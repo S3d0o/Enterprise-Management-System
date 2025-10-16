@@ -11,7 +11,6 @@ using System.Numerics;
 namespace Demo.Presentaion.Controllers
 {
     [Authorize]
-
     public class EmployeeController(IEmployeeService _employeeService, 
         IWebHostEnvironment _env, ILogger<EmployeeController> _logger) : Controller
     {
