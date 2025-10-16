@@ -1,11 +1,11 @@
 ﻿@model IEnumerable<UserDto>
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Users";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
 <partial name="_ToastPartialView"></partial>
+
 @section Scripts {
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -18,76 +18,74 @@
     </script>
 }
 
-<h1 class="my-5 w-50 mx-auto text-center fw-bold border-bottom pb-3">All Users</h1>
-<div class="container">
-    <form class="row justify-content-center align-items-center" asp-action="Index" method="get">
-        <!-- Search -->
+<h1 class="my-5 text-center fw-bold border-bottom pb-3">All Users</h1>
+
+<div class="container mb-4">
+    <!-- Search Form -->
+    <form class="row justify-content-center mb-4" asp-action="Index" method="get">
         <div class="col-md-6">
-            <div class="input-group shadow rounded-pill">
-                <input class="form-control border-0 rounded-pill rounded-end-0 px-3"
+            <div class="input-group shadow rounded-pill overflow-hidden">
+                <input class="form-control border-0 px-3"
                        type="text"
                        id="searchBox"
                        name="searchByEmail"
                        placeholder="Search By Email..."
-                       aria-label="Search"
                        style="height: 50px; font-size: 1.1rem;" />
-                <button class="btn btn-primary rounded-pill rounded-start-0 px-3"
+                <button class="btn btn-primary px-3"
                         type="submit"
-                        id="searchButton"
                         style="height: 50px;">
                     <i class="bi bi-search"></i>
                 </button>
             </div>
         </div>
     </form>
-</div>
 
-<div class="container mt-3" style="min-height: 500px;">
-    @if (Model?.Any() ?? false)
-    {
-        <table class="table table-striped table-hover shadow rounded-bottom">
-            <thead class="text-center">
-                <tr>
-                    <th>@Html.DisplayNameFor(u => u.Id)</th>
-                    <th>@Html.DisplayNameFor(u => u.FirstName)</th>
-                    <th>@Html.DisplayNameFor(u => u.LastName)</th>
-                    <th>@Html.DisplayNameFor(u => u.Email)</th>
-                    <th>@Html.DisplayNameFor(u => u.Roles)</th>
-                    
-                    <th>Details</th>
-                    <th>Update</th>
-                    <th>Delete</th>
-                </tr>
-            </thead>
-            <tbody class="text-center">
-                @foreach (var user in Model)
-                {
+    <!-- Users Table -->
+    <div class="table-responsive shadow rounded">
+        @if (Model?.Any() ?? false)
+        {
+            <table class="table table-hover align-middle mb-0 w-100">
+                <thead class="table-dark text-center">
                     <tr>
-                        @* <td>
-                            <img class="rounded-circle" width="40" height="40" src="~/Attachments/Images/@(!string.IsNullOrEmpty(user.ImageName) ? user.ImageName : "user.png")" alt="Employee Image" />
-                        </td> *@
-                        <td>@user.Id</td>
-                        <td>@user.FirstName</td>
-                        <td>@user.LastName</td>
-                        <td>@user.Email</td>
-                        <td>@string.Join(",",user.Roles)</td>
-                        <partial name="_ButtonsPartialView"
-                                 model="@user.Id"
-                                 view-data='new ViewDataDictionary(ViewData) {
-                                                                       { "EntityType", "User" },
-                                                                       { "Controller", "User" },
-                                                                       { "Name", (user.FirstName +" "+ user.LastName) }
-                                                                   }' />
-
-            </tr>
-                        }
-            </tbody>
-        </table>
-    }
-    else
-    {
-        <div class="alert alert-info text-center">
-            <h2>No Users Found</h2>
-        </div>
-    }
+                        <th style="width:50px;">#</th>
+                        <th style="width:150px;">First Name</th>
+                        <th style="width:150px;">Last Name</th>
+                        <th style="width:250px;">Email</th>
+                        <th style="width:200px;">Roles</th>
+                        <th colspan="3">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="text-center">
+                    @foreach (var user in Model)
+                    {
+                        <tr>
+                            <td>@user.Id</td>
+                            <td>@user.FirstName</td>
+                            <td>@user.LastName</td>
+                            <td>@user.Email</td>
+                            <td>
+                                @foreach (var role in user.Roles)
+                                {
+                                    <span class="badge bg-info text-dark me-1">@role</span>
+                                }
+                            </td>
+                            <partial name="_ButtonsPartialView"
+                                     model="@user.Id"
+                                     view-data='new ViewDataDictionary(ViewData) {
+                                                                      { "EntityType", "User" },
+                                                                      { "Controller", "User" },
+                                                                      { "Name", (user.FirstName + " " + user.LastName) }
+                                                                  }' />
+                </tr>
+                                }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="alert alert-info text-center mb-0">
+                <h5>No Users Found</h5>
+            </div>
+        }
+    </div>
 </div>

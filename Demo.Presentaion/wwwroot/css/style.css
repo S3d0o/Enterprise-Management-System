@@ -706,4 +706,63 @@ label.valid {
     }
 }
 
-/*# sourceMappingURL=style.css.map */
+/* Table Styling */
+.table-hover tbody tr:hover {
+    background-color: rgba(0, 123, 255, 0.1);
+    transition: 0.3s;
+}
+
+.table th, .table td {
+    vertical-align: middle;
+    font-size: 0.95rem;
+}
+
+.table thead th {
+    font-weight: 600;
+}
+
+.badge {
+    font-size: 0.85rem;
+    padding: 0.45em 0.7em;
+    border-radius: 0.5rem;
+}
+
+.btn {
+    border-radius: 0.5rem;
+    font-size: 0.9rem;
+}
+
+/* Responsive tweaks */
+@media screen and (max-width: 768px) {
+    .table thead {
+        display: none;
+    }
+
+    .table, .table tbody, .table tr, .table td {
+        display: block;
+        width: 100%;
+    }
+
+        .table tr {
+            margin-bottom: 1rem;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .table td {
+            text-align: right;
+            padding-left: 50%;
+            position: relative;
+        }
+
+            .table td::before {
+                content: attr(data-label);
+                position: absolute;
+                left: 1rem;
+                width: 45%;
+                padding-left: 0;
+                font-weight: 600;
+                text-align: left;
+            }
+}
+
+
