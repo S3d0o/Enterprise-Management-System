@@ -98,13 +98,17 @@ Each layer communicates via abstractions, ensuring **flexibility** and **loose c
 
 ---
 
+
 🧑‍💻 Author
 
 Saad Mohamed
- Physics & Computer Science Student — Faculty of Science
+ Physics & Computer Science Student — Faculty of Science.
+ 
  Backend Developer (C# / .NET / SQL)
-📧 Saadmohamedd001@gamil.com
-🔗 www.linkedin.com/in/saad-mohamed-li
+ 
+ 📧 Saadmohamedd001@gamil.com 
+ 
+ 🔗 www.linkedin.com/in/saad-mohamed-li 
 
 “A great architecture doesn’t just organize code — it defines the developer’s mindset.”
 
