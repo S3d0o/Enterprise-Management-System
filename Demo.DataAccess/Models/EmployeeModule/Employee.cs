@@ -1,12 +1,13 @@
-﻿using Demo.DataAccess.Models.Shared;
+﻿    using Demo.DataAccess.Models.IdentityModule;
+    using Demo.DataAccess.Models.Shared;
 
-namespace Demo.DataAccess.Models.EmployeeModule
-{
-    public class Employee : BaseEntity
+    namespace Demo.DataAccess.Models.EmployeeModule
     {
+        public class Employee : BaseEntity
+        {
         public string Name { get; set; } = string.Empty;
         public int Age { get; set; }
-        public string? Address { get; set; } 
+        public string? Address { get; set; }
         public decimal Salary { get; set; }
         public bool IsActive { get; set; }
         public string? Email { get; set; }
@@ -14,9 +15,15 @@ namespace Demo.DataAccess.Models.EmployeeModule
         public DateTime HiringDate { get; set; }
         public EmployeeType EmployeeType { get; set; }
         public Gender Gender { get; set; }
+
         public virtual Department? Department { get; set; }
-        public int? DepartmentId { get; set; } // Foriegn Key
+        public int? DepartmentId { get; set; }
+
         public string? ImageName { get; set; }
+
+        // the identity user linked to this employee account
+        public virtual ApplicationUser? User { get; set; }
+        public string? UserId { get; set; } // Foriegn Key
 
     }
 }

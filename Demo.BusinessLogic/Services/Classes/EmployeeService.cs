@@ -32,28 +32,29 @@ namespace Demo.BusinessLogic.Services.Classes
         }
         public int CreateEmployee(CreateEmployeeDto employeeDto)
         {
-            var employee = _mapper.Map<CreateEmployeeDto, Employee>(employeeDto);
+            var employee = _mapper.Map<Employee>(employeeDto);
 
-            // Get all existing emails (only active employees)
+            // Set the audit fields
+            employee.CreatedById = employeeDto.CreatedById;
+            employee.CreatedAt = DateTime.UtcNow;
+
+            // check for duplicate email
             var existingEmails = _unitOfWork.EmployeeRepository.GetAll(e => e.Email);
-
             if (existingEmails.Any(email => email.Equals(employeeDto.Email, StringComparison.OrdinalIgnoreCase)))
-            {
-                return -1; // should handle this case in with the service result pattern or in the controller a [dummy way]
-            }
+                return -1;
 
+            // handle image upload
             if (employeeDto.Image is not null)
             {
-               string? imgName = _attachmentService.Upload(employeeDto.Image,"Images");
+                string? imgName = _attachmentService.Upload(employeeDto.Image, "Images");
                 employee.ImageName = imgName;
-
             }
-            _unitOfWork.EmployeeRepository.Add(employee);
 
+            _unitOfWork.EmployeeRepository.Add(employee);
             return _unitOfWork.SaveChanges();
-            
         }
-        public int UpdateEmployee(UpdatedEmployeeDto employeeDto)
+
+        public int UpdateEmployee(UpdatedEmployeeDto employeeDto, string? modifiedById)
         {
             var existingEmployee = _unitOfWork.EmployeeRepository.GetById(employeeDto.id);
             if (existingEmployee is null)
@@ -77,7 +78,9 @@ namespace Demo.BusinessLogic.Services.Classes
             existingEmployee.Email = employeeDto.Email;
             existingEmployee.PhoneNumber = employeeDto.PhoneNumber;
             existingEmployee.DepartmentId = employeeDto.DepartmentId;
+
             existingEmployee.ModifiedAt = DateTime.Now;
+            existingEmployee.ModifiedById = modifiedById;  // Set modifier user
 
             _unitOfWork.EmployeeRepository.Update(existingEmployee);
             return _unitOfWork.SaveChanges();

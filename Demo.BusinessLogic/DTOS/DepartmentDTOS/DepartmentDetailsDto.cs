@@ -3,8 +3,8 @@
     public class DepartmentDetailsDto
     {
         public int Id { get; set; }
-        public int CreatedBy { get; set; } // user id
-        public int ModifiedBy { get; set; } // user id
+        public string? CreatedBy { get; set; } // user id
+        public string? ModifiedBy { get; set; } // user id
         public DateOnly? CreatedAt { get; set; } // the date time of creation
         public DateOnly? ModifiedAt { get; set; } // the date time of modification
         public bool IsDeleted { get; set; }

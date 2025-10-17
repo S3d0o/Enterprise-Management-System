@@ -13,7 +13,7 @@ namespace Demo.BusinessLogic.Services.Interfaces
         //Create Employee
         int CreateEmployee(CreateEmployeeDto employeeDto);
         // Update Employee
-        int UpdateEmployee(UpdatedEmployeeDto updatedEmployee);
+        int UpdateEmployee(UpdatedEmployeeDto updatedEmployee,string? modifiedById);
         // Delete Employee
         bool DeleteEmployee(int id);
 

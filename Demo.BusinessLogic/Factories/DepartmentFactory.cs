@@ -26,13 +26,27 @@ namespace Demo.BusinessLogic.Factories
                 Code = department.Code,
                 Name = department.Name,
                 Description = department.Description,
-                CreatedBy = department.CreatedBy,
-                ModifiedBy = department.ModifiedBy,
-                CreatedAt = department.CreatedAt.HasValue ? DateOnly.FromDateTime(department.CreatedAt.Value) : default,
-                ModifiedAt = department.ModifiedAt.HasValue ? DateOnly.FromDateTime(department.ModifiedAt.Value) : default,
+
+                CreatedBy = department.CreatedByUser != null
+                    ? $"{department.CreatedByUser.FirstName} {department.CreatedByUser.LastName}"
+                    : "System",
+
+                ModifiedBy = department.ModifiedByUser != null
+                    ? $"{department.ModifiedByUser.FirstName} {department.ModifiedByUser.LastName}"
+                    : "System",
+
+                CreatedAt = department.CreatedAt.HasValue
+                    ? DateOnly.FromDateTime(department.CreatedAt.Value)
+                    : default,
+
+                ModifiedAt = department.ModifiedAt.HasValue
+                    ? DateOnly.FromDateTime(department.ModifiedAt.Value)
+                    : default,
+
                 IsDeleted = department.IsDeleted
             };
         }
+
 
         public static Department ToEntity(this CreateDepartmentDto createDepartmentDto)
         {

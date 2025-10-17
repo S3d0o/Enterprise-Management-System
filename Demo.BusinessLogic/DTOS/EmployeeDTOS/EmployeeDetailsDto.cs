@@ -1,4 +1,5 @@
 ﻿using Demo.DataAccess.Models;
+using System.ComponentModel;
 
 namespace Demo.BusinessLogic.DTOS.EmployeeDTOS
 {
@@ -15,9 +16,13 @@ namespace Demo.BusinessLogic.DTOS.EmployeeDTOS
         public DateOnly HiringDate { get; set; }
         public string Gender { get; set; }
         public string EmployeeType { get; set; }
-        public int CreatedBy { get; set; }
+
+        [DisplayName("Created By")]
+        public string? CreatedBy { get; set; }
         public DateTime? CreatedAt { get; set; }
-        public int ModifiedBy { get; set; }
+
+        [DisplayName("Modified By")]
+        public string? ModifiedBy { get; set; }
         public DateTime? ModifiedAt { get; set; }
         public string? Department { get; set; }
         public int? DepartmentId { get; set; }

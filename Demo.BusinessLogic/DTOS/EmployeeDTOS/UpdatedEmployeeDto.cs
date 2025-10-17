@@ -40,5 +40,7 @@ namespace Demo.BusinessLogic.DTOS.EmployeeDTOS
         public EmployeeType EmployeeType { get; set; }
         public int? DepartmentId { get; set; } // Foriegn Key
         public IFormFile? Image { get; set; }
+        public string? ModifiedById { get; set; }
+
     }
 }

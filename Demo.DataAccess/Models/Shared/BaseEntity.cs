@@ -1,12 +1,20 @@
-﻿namespace Demo.DataAccess.Models.Shared
+﻿using Demo.DataAccess.Models.IdentityModule;
+
+namespace Demo.DataAccess.Models.Shared
 {
     public class BaseEntity
     {
         public int Id { get; set; }
-        public int CreatedBy { get; set; } // user id
-        public int ModifiedBy { get; set; } // user id
-        public DateTime? CreatedAt { get; set; } // the date time of creation
-        public DateTime? ModifiedAt { get; set; } // the date time of modification
+
+        public string? CreatedById { get; set; }
+        public virtual ApplicationUser? CreatedByUser { get; set; }
+
+        public string? ModifiedById { get; set; }
+        public virtual ApplicationUser? ModifiedByUser { get; set; }
+
+        public DateTime? CreatedAt { get; set; }
+        public DateTime? ModifiedAt { get; set; }
+
         public bool IsDeleted { get; set; }
     }
 }

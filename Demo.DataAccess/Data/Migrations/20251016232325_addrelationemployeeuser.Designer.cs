@@ -4,6 +4,7 @@ using Demo.DataAccess.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Demo.DataAccess.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251016232325_addrelationemployeeuser")]
+    partial class addrelationemployeeuser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,8 +46,8 @@ namespace Demo.DataAccess.Data.Migrations
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETDATE()");
 
-                    b.Property<string>("CreatedById")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("CreatedBy")
+                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -57,8 +60,8 @@ namespace Demo.DataAccess.Data.Migrations
                         .HasColumnType("datetime2")
                         .HasComputedColumnSql("GETDATE()");
 
-                    b.Property<string>("ModifiedById")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("ModifiedBy")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -66,10 +69,6 @@ namespace Demo.DataAccess.Data.Migrations
                         .HasColumnType("nvarchar(20)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CreatedById");
-
-                    b.HasIndex("ModifiedById");
 
                     b.ToTable("Departments");
                 });
@@ -93,8 +92,8 @@ namespace Demo.DataAccess.Data.Migrations
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETDATE()");
 
-                    b.Property<string>("CreatedById")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("CreatedBy")
+                        .HasColumnType("int");
 
                     b.Property<int?>("DepartmentId")
                         .HasColumnType("int");
@@ -127,8 +126,8 @@ namespace Demo.DataAccess.Data.Migrations
                         .HasColumnType("datetime2")
                         .HasComputedColumnSql("GETDATE()");
 
-                    b.Property<string>("ModifiedById")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("ModifiedBy")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -145,11 +144,7 @@ namespace Demo.DataAccess.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CreatedById");
-
                     b.HasIndex("DepartmentId");
-
-                    b.HasIndex("ModifiedById");
 
                     b.HasIndex("UserId");
 
@@ -366,49 +361,19 @@ namespace Demo.DataAccess.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Demo.DataAccess.Models.Department", b =>
-                {
-                    b.HasOne("Demo.DataAccess.Models.IdentityModule.ApplicationUser", "CreatedByUser")
-                        .WithMany()
-                        .HasForeignKey("CreatedById")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("Demo.DataAccess.Models.IdentityModule.ApplicationUser", "ModifiedByUser")
-                        .WithMany()
-                        .HasForeignKey("ModifiedById")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("CreatedByUser");
-
-                    b.Navigation("ModifiedByUser");
-                });
-
             modelBuilder.Entity("Demo.DataAccess.Models.EmployeeModule.Employee", b =>
                 {
-                    b.HasOne("Demo.DataAccess.Models.IdentityModule.ApplicationUser", "CreatedByUser")
-                        .WithMany("CreatedEmployees")
-                        .HasForeignKey("CreatedById")
-                        .OnDelete(DeleteBehavior.Restrict);
-
                     b.HasOne("Demo.DataAccess.Models.Department", "Department")
                         .WithMany("Employees")
                         .HasForeignKey("DepartmentId")
                         .OnDelete(DeleteBehavior.SetNull);
 
-                    b.HasOne("Demo.DataAccess.Models.IdentityModule.ApplicationUser", "ModifiedByUser")
-                        .WithMany("ModifiedEmployees")
-                        .HasForeignKey("ModifiedById")
-                        .OnDelete(DeleteBehavior.Restrict);
-
                     b.HasOne("Demo.DataAccess.Models.IdentityModule.ApplicationUser", "User")
                         .WithMany("Employees")
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("CreatedByUser");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("Department");
-
-                    b.Navigation("ModifiedByUser");
 
                     b.Navigation("User");
                 });
@@ -471,11 +436,7 @@ namespace Demo.DataAccess.Data.Migrations
 
             modelBuilder.Entity("Demo.DataAccess.Models.IdentityModule.ApplicationUser", b =>
                 {
-                    b.Navigation("CreatedEmployees");
-
                     b.Navigation("Employees");
-
-                    b.Navigation("ModifiedEmployees");
                 });
 #pragma warning restore 612, 618
         }

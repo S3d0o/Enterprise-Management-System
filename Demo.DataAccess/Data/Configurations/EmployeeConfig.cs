@@ -11,12 +11,22 @@ namespace Demo.DataAccess.Data.Configurations
             builder.HasKey(e => e.Id);
             builder.Property(E => E.Name).HasColumnType("varchar(50)");
             builder.Property(E => E.Address).HasColumnType("varchar(100)");
-            builder.Property(E=>E.Salary).HasColumnType("decimal(10,2)");
+            builder.Property(E => E.Salary).HasColumnType("decimal(10,2)");
             builder.Property(E => E.Gender).HasConversion(
                 (empGender) => empGender.ToString(),
-                (gender) => (Gender)Enum.Parse(typeof(Gender), gender,true));
+                (gender) => (Gender)Enum.Parse(typeof(Gender), gender, true));
 
-            builder.Property(E=>E.EmployeeType).HasConversion<string>();
+            builder.Property(E => E.EmployeeType).HasConversion<string>();
+
+            builder.HasOne(e => e.CreatedByUser)
+              .WithMany(u => u.CreatedEmployees)
+              .HasForeignKey(e => e.CreatedById)
+              .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne(e => e.ModifiedByUser)
+              .WithMany(u => u.ModifiedEmployees)
+              .HasForeignKey(e => e.ModifiedById)
+              .OnDelete(DeleteBehavior.Restrict);
 
             base.Configure(builder);
         }

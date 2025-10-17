@@ -44,6 +44,8 @@ namespace Demo.Presentaion.ViewModels.Employee
         public IFormFile? Image { get; set; }
         public string? ImageName { get; set; }
         public SelectList? DepartmentList { get; set; }
+        public string? ModifiedById { get; set; }
+
 
 
     }

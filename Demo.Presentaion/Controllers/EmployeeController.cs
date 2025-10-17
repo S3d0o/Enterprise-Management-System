@@ -6,9 +6,11 @@ using Demo.DataAccess.Models.EmployeeModule;
 using Demo.DataAccess.Models.Shared;
 using Demo.Presentaion.ViewModels.Employee;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Numerics;
+using System.Security.Claims;
 
 namespace Demo.Presentaion.Controllers
 {
@@ -41,12 +43,11 @@ namespace Demo.Presentaion.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+
         public IActionResult Create(EmployeeViewModel employeemodel, [FromServices] IDepartmentService _departmentService)
         {
-            // Check model validation first
             if (!ModelState.IsValid)
             {
-                // Refill dropdowns or any required data
                 employeemodel.DepartmentList = new SelectList(_departmentService.GetAllDepartments(),
                                               nameof(DepartmentDto.DeptId),
                                               nameof(DepartmentDto.DeptName));
@@ -55,7 +56,9 @@ namespace Demo.Presentaion.Controllers
 
             try
             {
-                // Create DTO from ViewModel
+                // Get the logged-in user ID
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
                 var employeeDto = new CreateEmployeeDto
                 {
                     Name = employeemodel.Name,
@@ -67,47 +70,38 @@ namespace Demo.Presentaion.Controllers
                     Email = employeemodel.Email,
                     PhoneNumber = employeemodel.PhoneNumber,
                     HiringDate = employeemodel.HiringDate,
-                    EmployeeType = Enum.Parse<EmployeeType>(employeemodel.EmployeeType.ToString()),
+                    EmployeeType = employeemodel.EmployeeType,
                     Gender = employeemodel.Gender,
                     Image = employeemodel.Image,
 
+                    // Pass the creator ID
+                    CreatedById = userId
                 };
 
-                // Call service to create employee
                 int result = _employeeService.CreateEmployee(employeeDto);
 
-                // Handle result
                 if (result > 0)
                 {
-                    TempData["message"] = $"🎉 Employee '{employeemodel.Name}' was created successfully!";
+                    TempData["message"] = $" Employee '{employeemodel.Name}' was created successfully!";
                     return RedirectToAction(nameof(Index));
                 }
-                else
-                {
-                    TempData["message"] = "⚠️ Something went wrong. Employee could not be created.";
-                    ModelState.AddModelError(string.Empty, "Employee creation failed. Please try again.");
-                }
+
+                TempData["message"] = " Something went wrong. Employee could not be created.";
+                ModelState.AddModelError(string.Empty, "Employee creation failed. Please try again.");
             }
             catch (Exception ex)
             {
-                // Log the full exception details
                 _logger.LogError(ex, "Error while creating employee");
 
-                // Handle differently for Development and Production
                 if (_env.IsDevelopment())
-                {
                     ModelState.AddModelError(string.Empty, $"Error: {ex.Message}");
-                }
                 else
-                {
                     ModelState.AddModelError(string.Empty, "An unexpected error occurred. Please contact support.");
-                }
             }
 
-            // If we reach here, something failed → reload dropdown and return same view
             employeemodel.DepartmentList = new SelectList(_departmentService.GetAllDepartments(),
-                                          nameof(DepartmentDto.DeptId),
-                                          nameof(DepartmentDto.DeptName));
+                                      nameof(DepartmentDto.DeptId),
+                                      nameof(DepartmentDto.DeptName));
             return View(employeemodel);
         }
 
@@ -146,7 +140,7 @@ namespace Demo.Presentaion.Controllers
             _departmentService.GetAllDepartments(),
             nameof(DepartmentDto.DeptId),
             nameof(DepartmentDto.DeptName),
-            emp.DepartmentId)// <-- selected department
+            emp.DepartmentId),// <-- selected department
 
 
             };
@@ -161,6 +155,8 @@ namespace Demo.Presentaion.Controllers
             if (!ModelState.IsValid) return View(employeeViewModel);
             try
             {
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Get the logged-in user ID
+
                 int result = _employeeService.UpdateEmployee(new UpdatedEmployeeDto()
                 {
                     id = id.Value, // efcore check if the entity already exists (takes the id from the route)
@@ -175,9 +171,10 @@ namespace Demo.Presentaion.Controllers
                     HiringDate = employeeViewModel.HiringDate,
                     EmployeeType = Enum.Parse<EmployeeType>(employeeViewModel.EmployeeType.ToString()),
                     Gender = employeeViewModel.Gender,
-                    Image = employeeViewModel.Image
+                    Image = employeeViewModel.Image,
+                    ModifiedById = userId // Pass the modifier ID
 
-                });
+                },userId);
                 if (result > 0)
                     return RedirectToAction(nameof(Index));
                 ModelState.AddModelError(string.Empty, "The employee could not be updated. Please try again.");

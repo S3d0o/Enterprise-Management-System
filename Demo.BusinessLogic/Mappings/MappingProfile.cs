@@ -3,6 +3,7 @@ using Demo.BusinessLogic.DTOS.DepartmentDTOS;
 using Demo.BusinessLogic.DTOS.EmployeeDTOS;
 using Demo.DataAccess.Models;
 using Demo.DataAccess.Models.EmployeeModule;
+using System.Text;
 
 namespace Demo.BusinessLogic.Mappings
 {
@@ -14,15 +15,23 @@ namespace Demo.BusinessLogic.Mappings
                 .ForMember(dest => dest.Gender, option => option.MapFrom(src => src.Gender))
                 .ForMember(d => d.EmployeeType, o => o.MapFrom(s => s.EmployeeType))
                 .ForMember(d => d.Department, o => o.MapFrom(mapExpression: src => src.Department != null ? src.Department.Name : null));
+
             CreateMap<Employee, EmployeeDetailsDto>()
-                .ForMember(dest => dest.Gender, option => option.MapFrom(src => src.Gender))
-                .ForMember(d => d.EmployeeType, o => o.MapFrom(s => s.EmployeeType))
-                .ForMember(d => d.HiringDate, o => o.MapFrom(s => DateOnly.FromDateTime(s.HiringDate)))
-                .ForMember(d => d.Department, o => o.MapFrom(mapExpression: src => src.Department != null ? src.Department.Name : null));
+                  .ForMember(d => d.Gender, o => o.MapFrom(s => s.Gender.ToString()))
+                  .ForMember(d => d.EmployeeType, o => o.MapFrom(s => s.EmployeeType.ToString()))
+                  .ForMember(d => d.HiringDate, o => o.MapFrom(s => DateOnly.FromDateTime(s.HiringDate)))
+                  .ForMember(d => d.Department, o => o.MapFrom(s => s.Department != null ? s.Department.Name : null))
+                  .ForMember(d => d.CreatedBy, o => o.MapFrom(s =>
+                     s.CreatedByUser != null
+                     ? $"{s.CreatedByUser.FirstName ?? ""} {s.CreatedByUser.LastName ?? ""}".Trim()
+                        : "System"))
+                  .ForMember(d => d.ModifiedBy, o => o.MapFrom(s =>
+                   s.ModifiedByUser != null ? $"{s.ModifiedByUser.FirstName ?? ""} {s.ModifiedByUser.LastName ?? ""}".Trim()
+                        : "System"));
 
             CreateMap<CreateEmployeeDto, Employee>()
                 .ForMember(d => d.HiringDate, o => o.MapFrom(s => s.HiringDate.ToDateTime(TimeOnly.MinValue)));
-           
+
 
 
         }
