@@ -14,18 +14,15 @@ The project implements a **multi-layered architecture** to ensure separation of 
 
 ---
 
-## Architecture Overview
+## Project Architecture
 
 EnterpriseManagementSystem
 │
-├── EMS.Presentation # MVC Layer: Controllers, Views, ViewModels, Static Assets
-│
-├── EMS.BusinessLogic # Application Core: Services, DTOs, Factories, Mappings, Interfaces
-│
-├── EMS.DataAccess # Infrastructure: EF Core, Repositories, Unit of Work, Context, Migrations
-    │
-    └── Models # Domain Models: Employees, Departments, Identity, Shared Entities
+├── EMS.Presentation # MVC Layer (Controllers, Views, ViewModels)
+├── EMS.BusinessLogic # Business Layer (Services, DTOs, Interfaces)
+└── EMS.DataAccess # Data Layer (EF Core, Repositories, Context, Migrations)
 
+This 3-layer architecture follows a clean separation of concerns and implements a fully modular design pattern.
 Each layer communicates via abstractions, ensuring **flexibility** and **loose coupling**.
 
 ---
