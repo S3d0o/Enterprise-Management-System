@@ -37,14 +37,30 @@ namespace Demo.BusinessLogic.Services.Classes
         // ADD
         public int AddDepartment(CreateDepartmentDto departmentDto)
         {
-            _unitOfWork.DepartmentRepository.Add(departmentDto.ToEntity());
-            return _unitOfWork.SaveChanges(); // return the number of affected rows
+            var entity = departmentDto.ToEntity();
+            entity.CreatedAt = DateTime.Now;
+            entity.CreatedById = departmentDto.CreatedById;
+
+            _unitOfWork.DepartmentRepository.Add(entity);
+            return _unitOfWork.SaveChanges();
         }
         // UPDATE
         public int UpdateDepartment(UpdatedDepartmentDto updatedDepartmentDto)
         {
-            _unitOfWork.DepartmentRepository.Update(updatedDepartmentDto.ToEntity());
-            return _unitOfWork.SaveChanges(); // return the number of affected rows
+            // Fetch the existing department from DB (tracked by EF)
+            var existingDept = _unitOfWork.DepartmentRepository.GetById(updatedDepartmentDto.Id);
+            if (existingDept is null)
+                return 0;
+
+            // Update only the modifiable fields
+            existingDept.Name = updatedDepartmentDto.Name;
+            existingDept.Code = updatedDepartmentDto.Code;
+            existingDept.Description = updatedDepartmentDto.Description;
+            existingDept.ModifiedAt = DateTime.Now;
+            existingDept.ModifiedById = updatedDepartmentDto.ModifiedById;
+
+            _unitOfWork.DepartmentRepository.Update(existingDept);
+            return _unitOfWork.SaveChanges();
         }
         // DELETE
         public bool DeleteDepartment(int id)

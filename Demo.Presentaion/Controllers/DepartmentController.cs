@@ -4,6 +4,7 @@ using Demo.Presentaion.ViewModels.Department;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Demo.Presentaion.Controllers
 {
@@ -33,12 +34,14 @@ namespace Demo.Presentaion.Controllers
             {
                 try
                 {
+                    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // to get the logged-in user ID
                     int result = _departmentService.AddDepartment(new CreateDepartmentDto()
                     {
                         Name = departmentViewModel.Name,
                         Code = departmentViewModel.Code,
                         Description = departmentViewModel.Description,
-                        CreatedAt = departmentViewModel.CreatedAt
+                        CreatedAt = departmentViewModel.CreatedAt,
+                        CreatedById = userId
                     });
                     string message;
                     if (result > 0)
@@ -92,7 +95,7 @@ namespace Demo.Presentaion.Controllers
                 Name = department.Name,
                 Code = department.Code,
                 Description = department.Description,
-                CreatedAt = department.CreatedAt.HasValue ? department.CreatedAt.Value : default
+                CreatedAt = department.CreatedAt.HasValue ? department.CreatedAt.Value : default,
             };
             return View(updatedDepartmentDto);
             //return View(department);
@@ -105,13 +108,17 @@ namespace Demo.Presentaion.Controllers
             try
             {
                 if (!id.HasValue) return BadRequest();
+
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // to get the logged-in user ID
                 var UpdatedDepartmentDto = new UpdatedDepartmentDto() // manual mapping
                 {
                     Id = id.Value,
                     Name = departmentVM.Name,
                     Code = departmentVM.Code,
                     Description = departmentVM.Description,
-                    CreatedAt = departmentVM.CreatedAt
+                    CreatedAt = departmentVM.CreatedAt,
+                    ModifiedById = userId
+
                 };
 
                 int result = _departmentService.UpdateDepartment(UpdatedDepartmentDto);

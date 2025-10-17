@@ -21,5 +21,7 @@ namespace Demo.BusinessLogic.DTOS.DepartmentDTOS
 
         [DisplayName("Number of members")]
         public int MemberCount { get; set; }
+        
+
     }
 }

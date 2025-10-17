@@ -55,9 +55,11 @@ namespace Demo.BusinessLogic.Factories
                 Name = createDepartmentDto.Name,
                 Code = createDepartmentDto.Code,
                 Description = createDepartmentDto.Description,
-                CreatedAt = createDepartmentDto.CreatedAt.ToDateTime(new TimeOnly()) 
+                CreatedAt = DateTime.Now,
+                CreatedById = createDepartmentDto.CreatedById
             };
         }
+
         public static Department ToEntity(this UpdatedDepartmentDto UpdateDepartmentDto)
         {
             return new Department()
@@ -66,7 +68,10 @@ namespace Demo.BusinessLogic.Factories
                 Name = UpdateDepartmentDto.Name,
                 Code = UpdateDepartmentDto.Code,
                 Description = UpdateDepartmentDto.Description,
-                CreatedAt = UpdateDepartmentDto.CreatedAt.ToDateTime(new TimeOnly()) 
+                CreatedAt = UpdateDepartmentDto.CreatedAt.ToDateTime(new TimeOnly()),
+                CreatedById = UpdateDepartmentDto.CreatedById,
+                ModifiedById = UpdateDepartmentDto.ModifiedById
+
             };
         }
 
