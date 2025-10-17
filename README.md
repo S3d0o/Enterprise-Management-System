@@ -15,13 +15,13 @@ The project implements a **multi-layered architecture** to ensure separation of 
 ---
 
 ## Project Architecture
-
+```bash
 EnterpriseManagementSystem
 │
 ├── EMS.Presentation        # MVC Layer (Controllers, Views, ViewModels)
 ├── EMS.BusinessLogic       # Business Layer (Services, DTOs, Interfaces)
 └── EMS.DataAccess          # Data Layer (EF Core, Repositories, Context, Migrations)
-
+```
 This 3-layer architecture follows a clean separation of concerns and implements a fully modular design pattern.
 Each layer communicates via abstractions, ensuring **flexibility** and **loose coupling**.
 
