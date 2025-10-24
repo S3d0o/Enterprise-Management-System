@@ -30,7 +30,7 @@ namespace Demo.BusinessLogic.Services.Classes
             var employee = _unitOfWork.EmployeeRepository.GetById(id);
             return employee == null ? null : _mapper.Map<EmployeeDetailsDto>(employee);
         }
-        public int CreateEmployee(CreateEmployeeDto employeeDto)
+        public ResultService CreateEmployee(CreateEmployeeDto employeeDto)
         {
             var employee = _mapper.Map<Employee>(employeeDto);
 
@@ -41,7 +41,7 @@ namespace Demo.BusinessLogic.Services.Classes
             // check for duplicate email
             var existingEmails = _unitOfWork.EmployeeRepository.GetAll(e => e.Email);
             if (existingEmails.Any(email => email.Equals(employeeDto.Email, StringComparison.OrdinalIgnoreCase)))
-                return -1;
+                return ResultService.Fail("this Email is already exists");
 
             // handle image upload
             if (employeeDto.Image is not null)
@@ -50,15 +50,22 @@ namespace Demo.BusinessLogic.Services.Classes
                 employee.ImageName = imgName;
             }
 
+
             _unitOfWork.EmployeeRepository.Add(employee);
-            return _unitOfWork.SaveChanges();
+                _unitOfWork.SaveChanges();
+            return ResultService.Ok();
         }
 
-        public int UpdateEmployee(UpdatedEmployeeDto employeeDto, string? modifiedById)
+        public ResultService UpdateEmployee(UpdatedEmployeeDto employeeDto, string? modifiedById)
         {
             var existingEmployee = _unitOfWork.EmployeeRepository.GetById(employeeDto.id);
             if (existingEmployee is null)
-                return 0;
+                return ResultService.Fail("Employee not found");
+
+            // check for duplicate email
+            var existingEmails = _unitOfWork.EmployeeRepository.GetAll(e => e.Email);
+            if (existingEmails.Any(email => email.Equals(employeeDto.Email, StringComparison.OrdinalIgnoreCase)))
+                return ResultService.Fail("this Email is already exists");
 
             if (employeeDto.Image is not null)
             {
@@ -83,7 +90,8 @@ namespace Demo.BusinessLogic.Services.Classes
             existingEmployee.ModifiedById = modifiedById;  // Set modifier user
 
             _unitOfWork.EmployeeRepository.Update(existingEmployee);
-            return _unitOfWork.SaveChanges();
+                _unitOfWork.SaveChanges();
+            return ResultService.Ok("Employee Updated Succesfully");
         }
 
         public bool DeleteEmployee(int id)

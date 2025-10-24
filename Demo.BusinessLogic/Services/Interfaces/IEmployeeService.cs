@@ -1,4 +1,5 @@
 ﻿using Demo.BusinessLogic.DTOS.EmployeeDTOS;
+using Demo.BusinessLogic.Services.Classes;
 using Demo.DataAccess.Models.EmployeeModule;
 
 namespace Demo.BusinessLogic.Services.Interfaces
@@ -11,9 +12,9 @@ namespace Demo.BusinessLogic.Services.Interfaces
         // GetById
         EmployeeDetailsDto? GetEmployeeById(int id);
         //Create Employee
-        int CreateEmployee(CreateEmployeeDto employeeDto);
+        ResultService CreateEmployee(CreateEmployeeDto employeeDto);
         // Update Employee
-        int UpdateEmployee(UpdatedEmployeeDto updatedEmployee,string? modifiedById);
+        ResultService UpdateEmployee(UpdatedEmployeeDto updatedEmployee,string? modifiedById);
         // Delete Employee
         bool DeleteEmployee(int id);
 

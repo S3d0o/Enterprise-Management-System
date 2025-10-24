@@ -78,16 +78,16 @@ namespace Demo.Presentaion.Controllers
                     CreatedById = userId
                 };
 
-                int result = _employeeService.CreateEmployee(employeeDto);
+                ResultService result = _employeeService.CreateEmployee(employeeDto);
 
-                if (result > 0)
+                if (result.Success)
                 {
                     TempData["message"] = $" Employee '{employeemodel.Name}' was created successfully!";
                     return RedirectToAction(nameof(Index));
                 }
 
-                TempData["message"] = " Something went wrong. Employee could not be created.";
-                ModelState.AddModelError(string.Empty, "Employee creation failed. Please try again.");
+                TempData["message"] = " Something went wrong. Employee could not be created."; // we could used result.Message here if needed
+                ModelState.AddModelError(string.Empty, result.Message);
             }
             catch (Exception ex)
             {
@@ -157,7 +157,7 @@ namespace Demo.Presentaion.Controllers
             {
                 var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Get the logged-in user ID
 
-                int result = _employeeService.UpdateEmployee(new UpdatedEmployeeDto()
+                ResultService result = _employeeService.UpdateEmployee(new UpdatedEmployeeDto()
                 {
                     id = id.Value, // efcore check if the entity already exists (takes the id from the route)
                     Name = employeeViewModel.Name,
@@ -175,9 +175,9 @@ namespace Demo.Presentaion.Controllers
                     ModifiedById = userId // Pass the modifier ID
 
                 },userId);
-                if (result > 0)
+                if (result.Success)
                     return RedirectToAction(nameof(Index));
-                ModelState.AddModelError(string.Empty, "The employee could not be updated. Please try again.");
+                ModelState.AddModelError(string.Empty, result.Message);
             }
             catch (Exception ex)
             {
