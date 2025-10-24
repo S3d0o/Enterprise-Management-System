@@ -101,20 +101,14 @@ namespace Demo.Presentaion.Controllers
             {
                 var result = _roleService.CreateRole(dto);
 
-                switch (result)
+                if (result.Success)
                 {
-                    case RoleCreateResult.Success:
-                        {
-                            TempData["message"] = $"Role {dto.Name} Created Succefully";
-                            return RedirectToAction(nameof(Index));
-                        }
-                    case RoleCreateResult.AlreadyExists:
-                        ModelState.AddModelError(nameof(dto.Name), "A role with this name already exists.");
-                        break;
-
-                    default:
-                        ModelState.AddModelError(string.Empty, "An error occurred while creating the role.");
-                        break;
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, result.Message);
+                    return View(dto);
                 }
             }
             catch (Exception ex)

@@ -67,18 +67,27 @@ namespace Demo.BusinessLogic.Services.Classes
             return result.Succeeded;
         }
 
-        public RoleCreateResult CreateRole(RoleCreateDto dto)
+        public ResultService CreateRole(RoleCreateDto dto)
         {
-            if (string.IsNullOrWhiteSpace(dto.Name)) return RoleCreateResult.Failed;
+            if (string.IsNullOrWhiteSpace(dto.Name))
+                return ResultService.Fail("Role name cannot be empty.");
+
             var existingRole = _roleManager.FindByNameAsync(dto.Name).Result;
-            if (existingRole != null) return RoleCreateResult.AlreadyExists; // Role already exists
+            if (existingRole != null)
+                return ResultService.Fail("A role with this name already exists.");
+
             var newRole = new ApplicationRole
             {
                 Name = dto.Name,
                 Description = dto.Description
             };
+
             var result = _roleManager.CreateAsync(newRole).Result;
-            return result.Succeeded ? RoleCreateResult.Success : RoleCreateResult.Failed;
+
+            return result.Succeeded
+                ? ResultService.Ok("Role created successfully.")
+                : ResultService.Fail("Failed to create role.");
         }
+
     }
 }
